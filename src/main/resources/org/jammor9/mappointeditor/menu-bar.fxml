@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="menuBarRoot" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.jammor9.mappointeditor.MenuBarController">
+    <MenuBar>
+        <Menu text="File">
+            <items>
+                <MenuItem fx:id="newProjectButton" onAction="#handleNewMap" text="New Project"/>
+                <MenuItem fx:id="openProjectButton" text="Open..."/>
+                <MenuItem fx:id="quitButton" text="Quit" onAction="#closeApplication"/>
+            </items>
+        </Menu>
+    </MenuBar>
+</AnchorPane>
