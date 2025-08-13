@@ -8,7 +8,8 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.jammor9.mappointeditor.RootController">
+            fx:controller="org.jammor9.mappointeditor.RootController"
+            fx:id="root">
     <BorderPane>
         <top>
             <fx:include source="menu-bar.fxml"/>
@@ -19,5 +20,8 @@
         <center>
             <fx:include source="map-view.fxml"/>
         </center>
+        <bottom>
+            <Button text="Test" onAction="#testMethod"/>
+        </bottom>
     </BorderPane>
 </AnchorPane>

@@ -3,6 +3,7 @@ package org.jammor9.mappointeditor;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.jammor9.mappointeditor.models.MapModel;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -12,6 +13,9 @@ public class Application extends javafx.application.Application {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
     private static final String WINDOW_NAME = "Map Editor";
+
+    //Base Model
+    private MapModel mapModel = MapModel.getInstance();
 
     @Override
     public void start(Stage stage) throws IOException {
