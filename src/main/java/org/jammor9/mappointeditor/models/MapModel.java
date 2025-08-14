@@ -6,20 +6,32 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
-public class MapModel {
+import java.util.ArrayList;
+
+public class MapModel extends ModelComposite {
     private StringProperty mapNameProperty;
     private ObjectProperty<Image> mapImageProperty;
+    private ArrayList<MarkerModel> markerModels;
 
     private static MapModel mapModel = null;
+    private ArrayList<MapListener> listeners;
 
     private MapModel() {
         this.mapNameProperty = new SimpleStringProperty("");
         this.mapImageProperty = new SimpleObjectProperty<>();
+        this.markerModels = new ArrayList<>();
+        this.listeners = new ArrayList<>();
     }
 
     public static MapModel getInstance() {
         if (mapModel == null) mapModel = new MapModel();
         return mapModel;
+    }
+
+    public void createNewMap(String mapName, Image image) {
+        this.mapNameProperty.set(mapName);
+        this.mapImageProperty.set(image);
+        for (MapListener l : listeners) l.update();
     }
 
     public StringProperty getMapNameProperty() {
@@ -30,10 +42,6 @@ public class MapModel {
         return this.mapNameProperty.get();
     }
 
-    public void setMapNameProperty(String mapName) {
-        this.mapNameProperty.set(mapName);
-    }
-
     public Image getMapImage() {
         return this.mapImageProperty.get();
     }
@@ -42,7 +50,27 @@ public class MapModel {
         return this.mapImageProperty;
     }
 
-    public void setMapImageProperty(Image image) {
-        this.mapImageProperty.set(image);
+    public void registerListener(MapListener mapListener) {
+        listeners.add(mapListener);
+    }
+
+    public void removeListener(MapListener mapListener) {
+        listeners.remove(mapListener);
+    }
+
+    @Override
+    public String toString() {
+        return getMapName();
+    }
+
+    @Override
+    public void add(ModelComposite modelComposite) {
+        super.add(modelComposite);
+        for (MapListener l : listeners) l.update();
+    }
+
+    @Override
+    public void execute() {
+
     }
 }

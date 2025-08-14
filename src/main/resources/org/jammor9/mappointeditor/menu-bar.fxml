@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="menuBarRoot" xmlns="http://javafx.com/javafx"
+<VBox fx:id="menuBarRoot" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.jammor9.mappointeditor.MenuBarController">
     <MenuBar>
@@ -18,4 +18,4 @@
             </items>
         </Menu>
     </MenuBar>
-</AnchorPane>
+</VBox>

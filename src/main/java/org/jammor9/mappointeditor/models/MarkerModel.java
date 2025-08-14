@@ -1,0 +1,85 @@
+package org.jammor9.mappointeditor.models;
+
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Popup;
+import javafx.stage.Window;
+
+public class MarkerModel extends ModelComposite {
+
+    private StringProperty markerName;
+    private ObjectProperty<Image> markerImage;
+
+    public MarkerModel() {}
+
+    public MarkerModel(String markerName) {
+        this.markerName = new SimpleStringProperty(markerName);
+    }
+
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public String toString() {
+        return getMarkerName();
+    }
+
+    public StringProperty getMarkerNameProperty() {
+        return markerName;
+    }
+
+    public String getMarkerName() {
+        return markerName.get();
+    }
+
+    public void setMarkerNameProperty(StringProperty markerName) {
+        this.markerName = markerName;
+    }
+
+    public ObjectProperty<Image> getMarkerImageProperty() {
+        return markerImage;
+    }
+
+    public Image getMarkerImage() {
+        return markerImage.get();
+    }
+
+    //Creates a form in a popup that is used to produce a new MarkerModel
+    //ModelComposite is who it will be assigned as the child of, Window is where it will be displayed
+    public static void createMarker(ModelComposite modelComposite, Window window) {
+        MarkerModel markerModel = new MarkerModel();
+        Popup popup = new Popup();
+        GridPane gridPane = new GridPane();
+
+        Label label = new Label("Enter Marker Name: ");
+        TextField textField = new TextField();
+        gridPane.add(label, 0, 0);
+        gridPane.add(textField, 1, 0);
+
+        Button submitButton = new Button("Submit");
+        submitButton.setOnAction(e -> {
+            if (textField.getText().isEmpty()) popup.hide(); //Don't create a MarkerModel with an empty name
+            markerModel.setMarkerNameProperty(new SimpleStringProperty(textField.getText()));
+            modelComposite.add(markerModel);
+            popup.hide();
+        });
+
+        gridPane.add(submitButton, 0, 1);
+        GridPane.setHalignment(submitButton, HPos.CENTER);
+        GridPane.setMargin(submitButton, new Insets(20, 0,20,0));
+        gridPane.setStyle("-fx-background-color: #3b3b3b;");
+        popup.getContent().add(gridPane);
+        popup.setAutoHide(true);
+        popup.show(window);
+    }
+}

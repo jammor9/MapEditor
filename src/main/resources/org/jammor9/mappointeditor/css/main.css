@@ -1,3 +1,24 @@
 .root {
     -fx-base: #3b3b3b;
+    -fx-focus-color: transparent;
+}
+
+.vbox {
+    -fx-color: black;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #2e2d2d;
+}
+
+.tree-cell {
+    -fx-background-color: transparent
+}
+
+.tree-cell:selected {
+    -fx-background-color: black;
 }

@@ -10,9 +10,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.jammor9.mappointeditor.models.MapListener;
 import org.jammor9.mappointeditor.models.MapModel;
 
 import java.io.File;
@@ -20,13 +22,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MenuBarController {
+public class MenuBarController implements MapListener {
 
     //FXML IDs
     @FXML public MenuItem quitButton;
     @FXML public MenuItem openProjectButton;
     @FXML public MenuItem newProjectButton;
-    @FXML public AnchorPane menuBarRoot;
+    @FXML public VBox menuBarRoot;
+
+    MapModel mapModel = MapModel.getInstance();
+
+
+    @FXML
+    public void initialize() {
+        mapModel.registerListener(this);
+    }
 
     @FXML
     public void handleNewMap() {
@@ -54,11 +64,7 @@ public class MenuBarController {
 
                 File selectedFile = fileChooser.showOpenDialog(stage);
                 Image image = new Image(selectedFile.toURI().toString()); //Convert File to Image for JavaFX
-
-                MapModel mapModel = MapModel.getInstance();
-
-                mapModel.setMapNameProperty(selectedFile.getName());
-                mapModel.setMapImageProperty(image);
+                mapModel.createNewMap(selectedFile.getName(), image);
             }
         });
 
@@ -87,5 +93,10 @@ public class MenuBarController {
 
     private Stage getStage() {
         return (Stage) menuBarRoot.getScene().getWindow();
+    }
+
+    @Override
+    public void update() {
+
     }
 }

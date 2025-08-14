@@ -8,9 +8,9 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import org.jammor9.mappointeditor.ZoomableScrollPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
+<HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.jammor9.mappointeditor.MapViewController">
-    <ZoomableScrollPane fx:id="mapViewScrollPane" prefWidth="2000" prefHeight="600" maxHeight="700" maxWidth="1280" pannable="true"/>
-    <Button text="Load Map" onAction="#loadMap"/>
-</AnchorPane>
+    <ZoomableScrollPane fx:id="mapViewScrollPane" prefWidth="2000" pannable="true"/>
+    <Button text="Load Map" onAction="#loadMap" minWidth="100"/>
+</HBox>
