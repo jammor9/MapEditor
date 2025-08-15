@@ -1,41 +1,58 @@
 package org.jammor9.mappointeditor;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.jammor9.mappointeditor.models.Command;
-import org.jammor9.mappointeditor.models.MapListener;
-import org.jammor9.mappointeditor.models.MapModel;
-import org.jammor9.mappointeditor.models.MarkerModel;
+import org.jammor9.mappointeditor.models.*;
+
+import java.util.ArrayList;
 
 public class MapViewController implements MapListener {
     @FXML public ZoomableScrollPane mapViewScrollPane;
-    private MapModel mapModel = MapModel.getInstance();
+
+    private Group imageGroup;
     private ImageView mapImageView;
+    private final MapModel mapModel = MapModel.getInstance();
     private ContextMenu contextMenu;
+
+    private double mousePointX;
+    private double mousePointY;
 
     @FXML
     private void initialize() {
         this.mapImageView = new ImageView(mapModel.getMapImage());
-
         contextMenu = createContextMenu(); //Create ContextMenu
 
-        //Initialise the context menu call
-        mapImageView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-            @Override
-            public void handle(ContextMenuEvent contextMenuEvent) {
-                contextMenu.show(mapImageView, contextMenuEvent.getScreenX(), contextMenuEvent.getScreenY());
+        //Initialise the ZoomableScrollPane
+        imageGroup = new Group(mapImageView);
+        mapViewScrollPane.setTarget(imageGroup);
+        mapModel.registerListener(this);
+
+        //Get coordinates when right click called
+        imageGroup.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY) {
+                mousePointX = e.getX();
+                mousePointY = e.getY();
             }
+            System.out.println(mousePointX + " " + mousePointY);
         });
 
-
-        //Initialise the ZoomableScrollPane
-        mapViewScrollPane.setTarget(mapImageView);
-        mapModel.registerListener(this);
+        //Initialise the context menu call
+        imageGroup.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+            @Override
+            public void handle(ContextMenuEvent contextMenuEvent) {
+                contextMenu.show(imageGroup, contextMenuEvent.getScreenX(), contextMenuEvent.getScreenY());
+            }
+        });
     }
 
     public void loadMap() {
@@ -44,7 +61,10 @@ public class MapViewController implements MapListener {
 
     @Override
     public void update(Command c) {
-        if (c == Command.NEW_MAP) loadMap();
+        switch (c) {
+            case NEW_MAP -> loadMap();
+            case ADD_TREE_CHILD -> updateImageView();
+        }
     }
 
     //Creates the ContextMenu for the ImageView
@@ -52,8 +72,10 @@ public class MapViewController implements MapListener {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem createMarker = new MenuItem("Create Marker");
 
+
         createMarker.setOnAction(e -> {
-            MarkerModel.createMarker(mapModel, getStage());
+            Image image = new Image(mapViewScrollPane.getClass().getResource("img/marker2.png").toExternalForm()); //Get the Marker Image from Resources
+            MarkerModel.createMarker(mapModel, getStage(), mousePointX, mousePointY, image);
         });
 
         contextMenu.getItems().addAll(createMarker);
@@ -64,4 +86,23 @@ public class MapViewController implements MapListener {
     public Stage getStage() {
         return (Stage) mapViewScrollPane.getScene().getWindow();
     }
+
+    public void updateImageView() {
+        ArrayList<ModelComposite> children = mapModel.getChildren();
+        imageGroup.getChildren().clear();
+        imageGroup.getChildren().add(mapImageView);
+        for (ModelComposite mc : children) {
+            if (mc.getClass() == MarkerModel.class) {
+                Image markerImage = ((MarkerModel) mc).getMarkerImage();
+                double x = ((MarkerModel) mc).getX();
+                double y = ((MarkerModel) mc).getY();
+                ImageView markerView = new ImageView(markerImage);
+                markerView.setX(x - markerImage.getWidth()/2);
+                markerView.setY(y - markerImage.getHeight());
+                imageGroup.getChildren().add(markerView);
+            }
+        }
+        loadMap();
+    }
+
 }

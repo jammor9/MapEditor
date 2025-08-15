@@ -1,8 +1,6 @@
 package org.jammor9.mappointeditor.models;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -17,11 +15,16 @@ public class MarkerModel extends ModelComposite {
 
     private StringProperty markerName;
     private ObjectProperty<Image> markerImage;
+    private double x;
+    private double y;
 
     public MarkerModel() {}
 
-    public MarkerModel(String markerName) {
+    public MarkerModel(String markerName, int x, int y) {
+        new MarkerModel();
         this.markerName = new SimpleStringProperty(markerName);
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -35,11 +38,11 @@ public class MarkerModel extends ModelComposite {
     }
 
     public StringProperty getMarkerNameProperty() {
-        return markerName;
+        return this.markerName;
     }
 
     public String getMarkerName() {
-        return markerName.get();
+        return this.markerName.get();
     }
 
     public void setMarkerNameProperty(StringProperty markerName) {
@@ -47,16 +50,36 @@ public class MarkerModel extends ModelComposite {
     }
 
     public ObjectProperty<Image> getMarkerImageProperty() {
-        return markerImage;
+        return this.markerImage;
     }
 
     public Image getMarkerImage() {
-        return markerImage.get();
+        return this.markerImage.get();
+    }
+
+    public void setMarkerImage(Image image) {
+        this.markerImage = new SimpleObjectProperty<>(image);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 
     //Creates a form in a popup that is used to produce a new MarkerModel
     //ModelComposite is who it will be assigned as the child of, Window is where it will be displayed
-    public static void createMarker(ModelComposite modelComposite, Window window) {
+    public static void createMarker(ModelComposite modelComposite, Window window, double x, double y, Image image) {
         MarkerModel markerModel = new MarkerModel();
         Popup popup = new Popup();
         GridPane gridPane = new GridPane();
@@ -70,6 +93,10 @@ public class MarkerModel extends ModelComposite {
         submitButton.setOnAction(e -> {
             if (textField.getText().isEmpty()) popup.hide(); //Don't create a MarkerModel with an empty name
             markerModel.setMarkerNameProperty(new SimpleStringProperty(textField.getText()));
+            markerModel.setX(x);
+            markerModel.setY(y);
+            markerModel.setMarkerImage(image);
+            System.out.println("X: " + x + "Y: " + y);
             modelComposite.add(markerModel);
             popup.hide();
         });

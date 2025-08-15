@@ -2,6 +2,7 @@ package org.jammor9.mappointeditor;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.jammor9.mappointeditor.models.MapModel;
 
@@ -24,6 +25,7 @@ public class Application extends javafx.application.Application {
         scene.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("css/main.css")).toExternalForm());
         stage.setTitle(WINDOW_NAME);
         stage.setScene(scene);
+        stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("img/marker.png"))));
         stage.show();
     }
 

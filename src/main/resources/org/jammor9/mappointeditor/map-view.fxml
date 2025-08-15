@@ -12,5 +12,4 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.jammor9.mappointeditor.MapViewController">
     <ZoomableScrollPane fx:id="mapViewScrollPane" prefWidth="2000" pannable="true"/>
-    <Button text="Load Map" onAction="#loadMap" minWidth="100"/>
 </HBox>
