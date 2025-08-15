@@ -31,7 +31,7 @@ public class MapModel extends ModelComposite {
     public void createNewMap(String mapName, Image image) {
         this.mapNameProperty.set(mapName);
         this.mapImageProperty.set(image);
-        for (MapListener l : listeners) l.update();
+        for (MapListener l : listeners) l.update(Command.NEW_MAP);
     }
 
     public StringProperty getMapNameProperty() {
@@ -66,7 +66,7 @@ public class MapModel extends ModelComposite {
     @Override
     public void add(ModelComposite modelComposite) {
         super.add(modelComposite);
-        for (MapListener l : listeners) l.update();
+        for (MapListener l : listeners) l.update(Command.ADD_TREE_CHILD);
     }
 
     @Override

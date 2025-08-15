@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.jammor9.mappointeditor.models.Command;
 import org.jammor9.mappointeditor.models.MapListener;
 import org.jammor9.mappointeditor.models.MapModel;
 
@@ -96,7 +97,7 @@ public class MenuBarController implements MapListener {
     }
 
     @Override
-    public void update() {
+    public void update(Command c) {
 
     }
 }

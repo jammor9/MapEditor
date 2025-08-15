@@ -7,6 +7,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Stage;
+import org.jammor9.mappointeditor.models.Command;
 import org.jammor9.mappointeditor.models.MapListener;
 import org.jammor9.mappointeditor.models.MapModel;
 import org.jammor9.mappointeditor.models.MarkerModel;
@@ -42,8 +43,8 @@ public class MapViewController implements MapListener {
     }
 
     @Override
-    public void update() {
-        loadMap();
+    public void update(Command c) {
+        if (c == Command.NEW_MAP) loadMap();
     }
 
     //Creates the ContextMenu for the ImageView

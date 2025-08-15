@@ -13,6 +13,6 @@ public class RootController{
 
     @FXML
     public void testMethod() {
-        System.out.println(mapModel);
+        System.out.println(mapModel.getTree().getChildren());
     }
 }

@@ -8,6 +8,7 @@ module org.jammor9.mappointeditor {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.naming;
+    requires jdk.compiler;
 
     opens org.jammor9.mappointeditor to javafx.fxml;
     exports org.jammor9.mappointeditor;
