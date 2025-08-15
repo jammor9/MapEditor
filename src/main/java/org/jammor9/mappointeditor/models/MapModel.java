@@ -42,6 +42,10 @@ public class MapModel extends ModelComposite {
         return this.mapNameProperty.get();
     }
 
+    public void setMapName(String s) {
+        mapNameProperty = new SimpleStringProperty(s);
+    }
+
     public Image getMapImage() {
         return this.mapImageProperty.get();
     }
@@ -61,6 +65,11 @@ public class MapModel extends ModelComposite {
     @Override
     public String toString() {
         return getMapName();
+    }
+
+    @Override
+    public void setName(String s) {
+        setMapName(s);
     }
 
     @Override

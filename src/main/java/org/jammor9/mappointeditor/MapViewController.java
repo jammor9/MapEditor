@@ -1,19 +1,17 @@
 package org.jammor9.mappointeditor;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.*;
 import javafx.stage.Stage;
 import org.jammor9.mappointeditor.models.*;
-
 import java.util.ArrayList;
 
 public class MapViewController implements MapListener {
@@ -43,7 +41,6 @@ public class MapViewController implements MapListener {
                 mousePointX = e.getX();
                 mousePointY = e.getY();
             }
-            System.out.println(mousePointX + " " + mousePointY);
         });
 
         //Initialise the context menu call
@@ -68,7 +65,7 @@ public class MapViewController implements MapListener {
     }
 
     //Creates the ContextMenu for the ImageView
-    public ContextMenu createContextMenu() {
+    private ContextMenu createContextMenu() {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem createMarker = new MenuItem("Create Marker");
 
@@ -87,6 +84,7 @@ public class MapViewController implements MapListener {
         return (Stage) mapViewScrollPane.getScene().getWindow();
     }
 
+    //Creates all the ImageViews used by the Map, including markers and the map itself
     public void updateImageView() {
         ArrayList<ModelComposite> children = mapModel.getChildren();
         imageGroup.getChildren().clear();
@@ -96,13 +94,47 @@ public class MapViewController implements MapListener {
                 Image markerImage = ((MarkerModel) mc).getMarkerImage();
                 double x = ((MarkerModel) mc).getX();
                 double y = ((MarkerModel) mc).getY();
-                ImageView markerView = new ImageView(markerImage);
-                markerView.setX(x - markerImage.getWidth()/2);
-                markerView.setY(y - markerImage.getHeight());
+                ImageView markerView = createMarkerView(x, y, markerImage, mc);
                 imageGroup.getChildren().add(markerView);
             }
         }
         loadMap();
     }
 
+    //Creates a new MarkerView with appropriate functionality
+    private ImageView createMarkerView(double x, double y, Image img, ModelComposite mc) {
+        ImageView markerView = new ImageView(img);
+        markerView.setX(x - img.getWidth()/2);
+        markerView.setY(y - img.getHeight());
+
+        //Adds dragging functionality so that the marker can be moved
+        markerView.setOnMouseDragged(e -> {
+            mapViewScrollPane.setPannable(false);
+            if (e.getX() > 0 && e.getX() < mapImageView.getImage().getWidth()) markerView.setX(e.getX() - markerView.getImage().getWidth()/2);
+            if (e.getY() > 0 && e.getY() < mapImageView.getImage().getHeight()) markerView.setY(e.getY() - markerView.getImage().getHeight());
+        });
+
+
+        //Once drag has finished make the ScrollPane pannable again
+        markerView.setOnMouseReleased(e -> {
+            mapViewScrollPane.setPannable(true);
+        });
+
+        //Changes mouse cursor when hovering over
+        markerView.setOnMouseEntered(e -> {
+            imageGroup.getScene().setCursor(Cursor.HAND);
+
+        });
+
+        //Revert to normal once mouse moves away
+        markerView.setOnMouseExited(e -> {
+            imageGroup.getScene().setCursor(Cursor.DEFAULT);
+        });
+
+        //Creates Tooltip for Marker
+        Tooltip tooltip = new Tooltip(mc.toString());
+        Tooltip.install(markerView, tooltip);
+
+        return markerView;
+    }
 }

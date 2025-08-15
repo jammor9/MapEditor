@@ -17,11 +17,16 @@
         <fx:include source="tree-view.fxml"/>
     </left>
     <center>
-        <fx:include source="map-view.fxml"/>
+        <StackPane fx:id="rootStack">
+            <fx:include source="map-view.fxml" visible="false" fx:id="mapView"/>
+            <fx:include source="editor-view.fxml" visible="false" fx:id="editorView"/>
+        </StackPane>
     </center>
     <bottom>
-        <VBox>
+        <HBox>
             <Button text="Test" onAction="#testMethod"/>
-        </VBox>
+            <Button text="Text Editor" onAction="#openTextEditor"/>
+            <Button text="Map Editor" onAction="#openMapEditor"/>
+        </HBox>
     </bottom>
 </BorderPane>

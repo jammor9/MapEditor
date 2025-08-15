@@ -42,4 +42,6 @@ public abstract class ModelComposite {
 
     @Override
     public abstract String toString();
+
+    public abstract void setName(String s);
 }

@@ -20,13 +20,6 @@ public class MarkerModel extends ModelComposite {
 
     public MarkerModel() {}
 
-    public MarkerModel(String markerName, int x, int y) {
-        new MarkerModel();
-        this.markerName = new SimpleStringProperty(markerName);
-        this.x = x;
-        this.y = y;
-    }
-
     @Override
     public void execute() {
 
@@ -35,6 +28,11 @@ public class MarkerModel extends ModelComposite {
     @Override
     public String toString() {
         return getMarkerName();
+    }
+
+    @Override
+    public void setName(String s) {
+        setMarkerNameProperty(new SimpleStringProperty(s));
     }
 
     public StringProperty getMarkerNameProperty() {
@@ -91,7 +89,10 @@ public class MarkerModel extends ModelComposite {
 
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(e -> {
-            if (textField.getText().isEmpty()) popup.hide(); //Don't create a MarkerModel with an empty name
+            if (textField.getText().isEmpty()) {
+                popup.hide(); //Don't create a MarkerModel with an empty name
+                return;
+            }
             markerModel.setMarkerNameProperty(new SimpleStringProperty(textField.getText()));
             markerModel.setX(x);
             markerModel.setY(y);
