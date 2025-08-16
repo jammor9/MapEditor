@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import org.jammor9.mappointeditor.models.MapModel;
+import org.jammor9.mappointeditor.models.ModelComposite;
 
 
 public class RootController{
@@ -17,6 +18,7 @@ public class RootController{
     @FXML public AnchorPane editorView;
     public StackPane rootStack;
     private MapModel mapModel = MapModel.getInstance();
+    private ModelComposite visibleView;
 
     @FXML
     public void testMethod() {

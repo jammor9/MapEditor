@@ -1,6 +1,5 @@
 package org.jammor9.mappointeditor.models;
 
-import com.sun.source.tree.Tree;
 import javafx.scene.control.TreeItem;
 
 import java.util.ArrayList;
@@ -37,8 +36,6 @@ public abstract class ModelComposite {
     public ModelComposite getParent() {
         return parent;
     }
-
-    public abstract void execute();
 
     @Override
     public abstract String toString();

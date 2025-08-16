@@ -123,7 +123,6 @@ public class MapViewController implements MapListener {
         //Changes mouse cursor when hovering over
         markerView.setOnMouseEntered(e -> {
             imageGroup.getScene().setCursor(Cursor.HAND);
-
         });
 
         //Revert to normal once mouse moves away

@@ -77,9 +77,4 @@ public class MapModel extends ModelComposite {
         super.add(modelComposite);
         for (MapListener l : listeners) l.update(Command.ADD_TREE_CHILD);
     }
-
-    @Override
-    public void execute() {
-
-    }
 }

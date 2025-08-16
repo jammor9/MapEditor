@@ -3,6 +3,7 @@ package org.jammor9.mappointeditor;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
 import org.jammor9.mappointeditor.models.Command;
@@ -11,6 +12,7 @@ import org.jammor9.mappointeditor.models.MapModel;
 import org.jammor9.mappointeditor.models.ModelComposite;
 
 import java.awt.event.KeyEvent;
+import java.beans.EventHandler;
 import java.util.ArrayList;
 
 public class TreeViewController  implements MapListener {
@@ -24,6 +26,8 @@ public class TreeViewController  implements MapListener {
     public void initialize() {
         mapModel.registerListener(this);
         nodeView.setContextMenu(createContextMenu());
+        createTreeViewCommands();
+
     }
 
     @Override
@@ -73,5 +77,16 @@ public class TreeViewController  implements MapListener {
         contextMenu.getItems().add(rename);
 
         return contextMenu;
+    }
+
+    private void createTreeViewCommands() {
+
+        nodeView.setOnMouseClicked(e -> {
+            //Focuses on the selected TreeItem when the TreeView is double clicked
+            if (e.getClickCount() == 2) {
+                TreeItem<ModelComposite> item = nodeView.getSelectionModel().getSelectedItem();
+                System.out.println(item);
+            }
+        });
     }
 }

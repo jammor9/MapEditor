@@ -15,4 +15,6 @@ module org.jammor9.mappointeditor {
     exports org.jammor9.mappointeditor;
     exports org.jammor9.mappointeditor.models;
     opens org.jammor9.mappointeditor.models to javafx.fxml;
+    exports org.jammor9.mappointeditor.models.modelfactory;
+    opens org.jammor9.mappointeditor.models.modelfactory to javafx.fxml;
 }
