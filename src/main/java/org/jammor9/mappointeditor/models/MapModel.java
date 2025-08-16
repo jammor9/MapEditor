@@ -11,27 +11,15 @@ import java.util.ArrayList;
 public class MapModel extends ModelComposite {
     private StringProperty mapNameProperty;
     private ObjectProperty<Image> mapImageProperty;
-    private ArrayList<MarkerModel> markerModels;
 
-    private static MapModel mapModel = null;
-    private ArrayList<MapListener> listeners;
-
-    private MapModel() {
-        this.mapNameProperty = new SimpleStringProperty("");
-        this.mapImageProperty = new SimpleObjectProperty<>();
-        this.markerModels = new ArrayList<>();
-        this.listeners = new ArrayList<>();
-    }
-
-    public static MapModel getInstance() {
-        if (mapModel == null) mapModel = new MapModel();
-        return mapModel;
+    public MapModel(String mapName, Image image) {
+        this.mapNameProperty = new SimpleStringProperty(mapName);
+        this.mapImageProperty = new SimpleObjectProperty<>(image);
     }
 
     public void createNewMap(String mapName, Image image) {
         this.mapNameProperty.set(mapName);
         this.mapImageProperty.set(image);
-        for (MapListener l : listeners) l.update(Command.NEW_MAP);
     }
 
     public StringProperty getMapNameProperty() {
@@ -54,14 +42,6 @@ public class MapModel extends ModelComposite {
         return this.mapImageProperty;
     }
 
-    public void registerListener(MapListener mapListener) {
-        listeners.add(mapListener);
-    }
-
-    public void removeListener(MapListener mapListener) {
-        listeners.remove(mapListener);
-    }
-
     @Override
     public String toString() {
         return getMapName();
@@ -70,11 +50,5 @@ public class MapModel extends ModelComposite {
     @Override
     public void setName(String s) {
         setMapName(s);
-    }
-
-    @Override
-    public void add(ModelComposite modelComposite) {
-        super.add(modelComposite);
-        for (MapListener l : listeners) l.update(Command.ADD_TREE_CHILD);
     }
 }

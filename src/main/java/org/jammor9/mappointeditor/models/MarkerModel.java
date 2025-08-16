@@ -86,7 +86,7 @@ public class MarkerModel extends ModelComposite {
 
     //Creates a form in a popup that is used to produce a new MarkerModel
     //ModelComposite is who it will be assigned as the child of, Window is where it will be displayed
-    public static void createMarker(ModelComposite modelComposite, Window window, double x, double y, Image image) {
+    public static void createMarker(VisibleModel visibleModel, ModelComposite modelComposite, Window window, double x, double y, Image image) {
         MarkerModel markerModel = new MarkerModel();
         Popup popup = new Popup();
         GridPane gridPane = new GridPane();
@@ -120,7 +120,7 @@ public class MarkerModel extends ModelComposite {
             markerModel.setY(y);
             markerModel.setMarkerImage(image);
             markerModel.setMarkerType(markerType);
-            modelComposite.add(markerModel);
+            visibleModel.add(markerModel);
             popup.hide();
         });
 

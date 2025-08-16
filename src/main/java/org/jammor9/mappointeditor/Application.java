@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.jammor9.mappointeditor.models.MapModel;
+import org.jammor9.mappointeditor.models.VisibleModel;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -16,7 +17,7 @@ public class Application extends javafx.application.Application {
     private static final String WINDOW_NAME = "Map Editor";
 
     //Base Model
-    private MapModel mapModel = MapModel.getInstance();
+    private VisibleModel visibleModel = VisibleModel.getInstance();
 
     @Override
     public void start(Stage stage) throws IOException {

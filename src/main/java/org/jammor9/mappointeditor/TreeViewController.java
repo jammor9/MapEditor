@@ -6,10 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
-import org.jammor9.mappointeditor.models.Command;
-import org.jammor9.mappointeditor.models.MapListener;
-import org.jammor9.mappointeditor.models.MapModel;
-import org.jammor9.mappointeditor.models.ModelComposite;
+import org.jammor9.mappointeditor.models.*;
 
 import java.awt.event.KeyEvent;
 import java.beans.EventHandler;
@@ -20,11 +17,11 @@ public class TreeViewController  implements MapListener {
     @FXML public TreeView<ModelComposite> nodeView;
     public TreeItem<ModelComposite> headerItem;
 
-    private final MapModel mapModel = MapModel.getInstance();
+    private VisibleModel visibleModel = VisibleModel.getInstance();
 
     @FXML
     public void initialize() {
-        mapModel.registerListener(this);
+        visibleModel.registerListener(this);
         nodeView.setContextMenu(createContextMenu());
         createTreeViewCommands();
 
@@ -33,14 +30,14 @@ public class TreeViewController  implements MapListener {
     @Override
     public void update(Command c) {
         switch (c) {
-            case NEW_MAP -> headerItem.setValue(mapModel);
+            case NEW_MAP -> headerItem.setValue(visibleModel.getCurrentView());
             case ADD_TREE_CHILD -> updateTree();
         }
     }
 
     //Updates the TreeView whenever a new ModelComposite is added
     private void updateTree() {
-        headerItem = mapModel.getTree();
+        headerItem = visibleModel.getCurrentView().getTree();
         nodeView.setRoot(headerItem);
         nodeView.refresh();
     }
@@ -84,8 +81,9 @@ public class TreeViewController  implements MapListener {
         nodeView.setOnMouseClicked(e -> {
             //Focuses on the selected TreeItem when the TreeView is double clicked
             if (e.getClickCount() == 2) {
-                TreeItem<ModelComposite> item = nodeView.getSelectionModel().getSelectedItem();
-                System.out.println(item);
+                ModelComposite mc = nodeView.getSelectionModel().getSelectedItem().getValue();
+                if (mc.getClass() == MarkerModel.class) visibleModel.setCurrentView(((MarkerModel) mc).getMarkerType());
+                else visibleModel.setCurrentView(mc);
             }
         });
     }

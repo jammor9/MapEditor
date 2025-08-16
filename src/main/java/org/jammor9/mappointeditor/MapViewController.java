@@ -13,13 +13,14 @@ import javafx.scene.input.*;
 import javafx.stage.Stage;
 import org.jammor9.mappointeditor.models.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MapViewController implements MapListener {
     @FXML public ZoomableScrollPane mapViewScrollPane;
 
     private Group imageGroup;
     private ImageView mapImageView;
-    private final MapModel mapModel = MapModel.getInstance();
+    private final VisibleModel visibleModel = VisibleModel.getInstance();
     private ContextMenu contextMenu;
 
     private double mousePointX;
@@ -27,13 +28,13 @@ public class MapViewController implements MapListener {
 
     @FXML
     private void initialize() {
-        this.mapImageView = new ImageView(mapModel.getMapImage());
         contextMenu = createContextMenu(); //Create ContextMenu
+        mapImageView = new ImageView();
 
         //Initialise the ZoomableScrollPane
         imageGroup = new Group(mapImageView);
         mapViewScrollPane.setTarget(imageGroup);
-        mapModel.registerListener(this);
+        visibleModel.registerListener(this);
 
         //Get coordinates when right click called
         imageGroup.setOnMouseClicked(e -> {
@@ -53,6 +54,7 @@ public class MapViewController implements MapListener {
     }
 
     public void loadMap() {
+        MapModel mapModel = getVisibleMap();
         mapImageView.setImage(mapModel.getMapImage());
     }
 
@@ -72,7 +74,8 @@ public class MapViewController implements MapListener {
 
         createMarker.setOnAction(e -> {
             Image image = new Image(mapViewScrollPane.getClass().getResource("img/marker2.png").toExternalForm()); //Get the Marker Image from Resources
-            MarkerModel.createMarker(mapModel, getStage(), mousePointX, mousePointY, image);
+            MapModel mapModel = getVisibleMap();
+            MarkerModel.createMarker(visibleModel,mapModel, getStage(), mousePointX, mousePointY, image);
         });
 
         contextMenu.getItems().addAll(createMarker);
@@ -86,7 +89,7 @@ public class MapViewController implements MapListener {
 
     //Creates all the ImageViews used by the Map, including markers and the map itself
     public void updateImageView() {
-        ArrayList<ModelComposite> children = mapModel.getChildren();
+        ArrayList<ModelComposite> children = getVisibleMap().getChildren();
         imageGroup.getChildren().clear();
         imageGroup.getChildren().add(mapImageView);
         for (ModelComposite mc : children) {
@@ -135,5 +138,13 @@ public class MapViewController implements MapListener {
         Tooltip.install(markerView, tooltip);
 
         return markerView;
+    }
+
+    public MapModel getVisibleMap() {
+        return (MapModel) visibleModel.getCurrentView();
+    }
+
+    public ArticleModel getVisibleArticle() {
+        return (ArticleModel) visibleModel.getCurrentView();
     }
 }

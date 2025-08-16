@@ -7,38 +7,45 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import org.jammor9.mappointeditor.models.MapModel;
-import org.jammor9.mappointeditor.models.ModelComposite;
+import org.jammor9.mappointeditor.models.*;
 
 
-public class RootController{
+public class RootController implements MapListener {
 
     @FXML public BorderPane root;
     @FXML public HBox mapView;
     @FXML public AnchorPane editorView;
     public StackPane rootStack;
-    private MapModel mapModel = MapModel.getInstance();
-    private ModelComposite visibleView;
+    private VisibleModel visibleModel = VisibleModel.getInstance();
 
     @FXML
     public void testMethod() {
-        System.out.println(mapModel.getTree().getChildren());
+
     }
 
     @FXML
     public void initialize() {
         rootStack.setAlignment(Pos.CENTER);
+        visibleModel.registerListener(this);
     }
 
     @FXML
-    public void openTextEditor(ActionEvent actionEvent) {
+    public void openTextEditor() {
         mapView.setVisible(false);
         editorView.setVisible(true);
     }
 
     @FXML
-    public void openMapEditor(ActionEvent actionEvent) {
+    public void openMapEditor() {
         mapView.setVisible(true);
         editorView.setVisible(false);
+    }
+
+    @Override
+    public void update(Command c) {
+        switch(c) {
+            case NEW_MAP -> openMapEditor();
+            case OPEN_ARTICLE -> openTextEditor();
+        }
     }
 }

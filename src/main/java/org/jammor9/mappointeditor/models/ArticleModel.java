@@ -6,8 +6,11 @@ import javafx.scene.web.HTMLEditor;
 
 public class ArticleModel extends ModelComposite{
     private StringProperty articleName;
-    private HTMLEditor articleEditor;
+    private StringProperty articleData;
 
+    public ArticleModel() {
+        articleData = new SimpleStringProperty("");
+    }
 
     public StringProperty getArticleNameProperty() {
         return this.articleName;
@@ -17,8 +20,16 @@ public class ArticleModel extends ModelComposite{
         return this.articleName.get();
     }
 
-    public HTMLEditor getArticleEditor() {
-        return this.articleEditor;
+    public StringProperty getArticleDataProperty() {
+        return this.articleData;
+    }
+
+    public String getArticleData() {
+        return this.articleData.get();
+    }
+
+    public void setArticleData(String s) {
+        this.articleData = new SimpleStringProperty(s);
     }
 
     @Override

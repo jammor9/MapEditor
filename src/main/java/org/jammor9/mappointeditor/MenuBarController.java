@@ -17,11 +17,9 @@ import javafx.stage.Stage;
 import org.jammor9.mappointeditor.models.Command;
 import org.jammor9.mappointeditor.models.MapListener;
 import org.jammor9.mappointeditor.models.MapModel;
+import org.jammor9.mappointeditor.models.VisibleModel;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class MenuBarController implements MapListener {
 
@@ -31,12 +29,12 @@ public class MenuBarController implements MapListener {
     @FXML public MenuItem newProjectButton;
     @FXML public VBox menuBarRoot;
 
-    MapModel mapModel = MapModel.getInstance();
+    VisibleModel visibleModel = VisibleModel.getInstance();
 
 
     @FXML
     public void initialize() {
-        mapModel.registerListener(this);
+        visibleModel.registerListener(this);
     }
 
     @FXML
@@ -65,7 +63,8 @@ public class MenuBarController implements MapListener {
 
                 File selectedFile = fileChooser.showOpenDialog(stage);
                 Image image = new Image(selectedFile.toURI().toString()); //Convert File to Image for JavaFX
-                mapModel.createNewMap(selectedFile.getName(), image);
+                MapModel mapModel = new MapModel(selectedFile.getName(), image);
+                visibleModel.setCurrentView(mapModel);
             }
         });
 
