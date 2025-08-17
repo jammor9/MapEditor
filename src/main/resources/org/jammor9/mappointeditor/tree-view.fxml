@@ -8,7 +8,7 @@
 <?import javafx.stage.Screen?>
 
 
-<HBox xmlns="http://javafx.com/javafx"
+<HBox fx:id="treeBox" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.jammor9.mappointeditor.TreeViewController">
     <TreeView fx:id="nodeView">

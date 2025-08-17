@@ -22,11 +22,11 @@
             <fx:include source="editor-view.fxml" visible="false" fx:id="editorView"/>
         </StackPane>
     </center>
-    <bottom>
-        <HBox>
-            <Button text="Test" onAction="#testMethod"/>
-            <Button text="Text Editor" onAction="#openTextEditor"/>
-            <Button text="Map Editor" onAction="#openMapEditor"/>
-        </HBox>
-    </bottom>
+<!--    <bottom>-->
+<!--        <HBox>-->
+<!--            <Button text="Test" onAction="#testMethod"/>-->
+<!--            <Button text="Text Editor" onAction="#openTextEditor"/>-->
+<!--            <Button text="Map Editor" onAction="#openMapEditor"/>-->
+<!--        </HBox>-->
+<!--    </bottom>-->
 </BorderPane>

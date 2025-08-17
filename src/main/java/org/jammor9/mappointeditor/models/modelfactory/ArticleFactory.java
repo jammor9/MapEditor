@@ -5,7 +5,7 @@ import org.jammor9.mappointeditor.models.ModelComposite;
 
 public class ArticleFactory implements ModelFactory{
 
-    private static final String FACTORY_TYPE = "ARTICLE";
+    private static final String FACTORY_TYPE = "Article";
 
     @Override
     public ModelComposite createModel(String name) {

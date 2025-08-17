@@ -4,10 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.web.HTMLEditor;
 import org.jammor9.mappointeditor.models.ArticleModel;
 import org.jammor9.mappointeditor.models.Command;
-import org.jammor9.mappointeditor.models.MapListener;
+import org.jammor9.mappointeditor.models.ModelListener;
 import org.jammor9.mappointeditor.models.VisibleModel;
 
-public class EditorViewController implements MapListener {
+public class EditorViewController implements ModelListener {
     @FXML public HTMLEditor articleEditor;
     VisibleModel visibleModel = VisibleModel.getInstance();
     ArticleModel currentModelData;

@@ -1,6 +1,7 @@
 .root {
-    -fx-base: #3b3b3b;
+    -fx-base: #404040;
     -fx-focus-color: transparent;
+    -fx-background-color:#242424;
 }
 
 .vbox {
@@ -15,10 +16,48 @@
     -fx-background-color: #2e2d2d;
 }
 
+.context-menu {
+    -fx-background-color:#404040;
+}
+
+.button {
+    -fx-background-color:#404040;
+    -fx-background-radius: 0;
+}
+
+.button:hover {
+    -fx-background-color: #6e6e6e;
+}
+
+/*CSS Styling for the MenuBar*/
+.menu-bar {
+    -fx-background-color:#404040;
+    -fx-padding:0;
+}
+
+.menu-button:hover {
+    -fx-background-color:#6e6e6e;
+}
+
+#menuBarRoot {
+    -fx-background-color: #404040;
+}
+
+/*CSS Styling for TreeView*/
+#treeBox {
+    -fx-border-color: black;
+    -fx-border-insets: 3;
+}
+
+.tree-view {
+    -fx-background-color: #404040;
+}
+
 .tree-cell {
-    -fx-background-color: transparent
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
 }
 
 .tree-cell:selected {
-    -fx-background-color: black;
+    -fx-background-color: #288fbf;
 }

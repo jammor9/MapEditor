@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class VisibleModel {
     private ModelComposite currentView;
     private static VisibleModel singleton = null;
-    private ArrayList<MapListener> listeners;
+    private ArrayList<ModelListener> listeners;
 
     private VisibleModel() {
         this.currentView = null;
@@ -19,8 +19,8 @@ public class VisibleModel {
 
     public void setCurrentView(ModelComposite newView) {
         this.currentView = newView;
-        if (newView.getClass() == MapModel.class) for (MapListener l : listeners) l.update(Command.NEW_MAP);
-        else if (newView.getClass() == ArticleModel.class) for (MapListener l : listeners) l.update(Command.OPEN_ARTICLE);
+        if (newView.getClass() == MapModel.class) for (ModelListener l : listeners) l.update(Command.NEW_MAP);
+        else if (newView.getClass() == ArticleModel.class) for (ModelListener l : listeners) l.update(Command.OPEN_ARTICLE);
         System.out.println("Test");
     }
 
@@ -28,16 +28,16 @@ public class VisibleModel {
         return this.currentView;
     }
 
-    public void registerListener(MapListener mapListener) {
-        listeners.add(mapListener);
+    public void registerListener(ModelListener modelListener) {
+        listeners.add(modelListener);
     }
 
-    public void removeListener(MapListener mapListener) {
-        listeners.remove(mapListener);
+    public void removeListener(ModelListener modelListener) {
+        listeners.remove(modelListener);
     }
 
     public void add(ModelComposite modelComposite) {
         currentView.add(modelComposite);
-        for (MapListener l : listeners) l.update(Command.ADD_TREE_CHILD);
+        for (ModelListener l : listeners) l.update(Command.ADD_TREE_CHILD);
     }
 }

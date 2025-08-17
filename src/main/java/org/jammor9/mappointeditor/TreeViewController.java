@@ -3,16 +3,11 @@ package org.jammor9.mappointeditor;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
 import org.jammor9.mappointeditor.models.*;
 
-import java.awt.event.KeyEvent;
-import java.beans.EventHandler;
-import java.util.ArrayList;
-
-public class TreeViewController  implements MapListener {
+public class TreeViewController  implements ModelListener {
 
     @FXML public TreeView<ModelComposite> nodeView;
     public TreeItem<ModelComposite> headerItem;

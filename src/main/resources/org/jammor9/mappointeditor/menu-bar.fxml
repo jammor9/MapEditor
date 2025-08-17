@@ -6,16 +6,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="menuBarRoot" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.jammor9.mappointeditor.MenuBarController">
+<HBox fx:id="menuBarRoot" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.jammor9.mappointeditor.MenuBarController">
     <MenuBar>
         <Menu text="File">
-            <items>
-                <MenuItem fx:id="newProjectButton" onAction="#handleNewMap" text="New Project"/>
-                <MenuItem fx:id="openProjectButton" text="Open..."/>
-                <MenuItem fx:id="quitButton" text="Quit" onAction="#closeApplication"/>
-            </items>
+            <MenuItem fx:id="newProjectButton" onAction="#handleNewMap" text="New Project"/>
+            <MenuItem fx:id="openProjectButton" text="Open..."/>
+            <MenuItem fx:id="saveProjectButton" text="Save"/>
+            <MenuItem fx:id="quitButton" text="Quit" onAction="#closeApplication"/>
         </Menu>
     </MenuBar>
-</VBox>
+
+</HBox>

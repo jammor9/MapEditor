@@ -1,36 +1,28 @@
 package org.jammor9.mappointeditor;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.jammor9.mappointeditor.models.Command;
-import org.jammor9.mappointeditor.models.MapListener;
+import org.jammor9.mappointeditor.models.ModelListener;
 import org.jammor9.mappointeditor.models.MapModel;
 import org.jammor9.mappointeditor.models.VisibleModel;
 
 import java.io.File;
 
-public class MenuBarController implements MapListener {
+public class MenuBarController implements ModelListener {
 
     //FXML IDs
     @FXML public MenuItem quitButton;
     @FXML public MenuItem openProjectButton;
     @FXML public MenuItem newProjectButton;
-    @FXML public VBox menuBarRoot;
+    @FXML public HBox menuBarRoot;
+    @FXML public MenuItem saveProjectButton;
 
-    VisibleModel visibleModel = VisibleModel.getInstance();
-
+    private VisibleModel visibleModel = VisibleModel.getInstance();
 
     @FXML
     public void initialize() {
@@ -39,50 +31,20 @@ public class MenuBarController implements MapListener {
 
     @FXML
     public void handleNewMap() {
-        Stage stage = getStage();
-        Popup popup = new Popup();
+        FileChooser fileChooser = new FileChooser();
 
-        GridPane popupGrid = new GridPane();
+        //Ensure you can only select images with fileChooser
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PNG", "*.png"),
+                new FileChooser.ExtensionFilter("JPEG", "*.jpeg"),
+                new FileChooser.ExtensionFilter("BMP", "*.bmp")
+        );
 
-        Button openFileButton = new Button("Open File...");
-        Button closeButton = new Button("Close");
-
-
-        //Opens a new file
-        openFileButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                FileChooser fileChooser = new FileChooser();
-
-                //Ensure you can only select images with fileChooser
-                fileChooser.getExtensionFilters().addAll(
-                        new FileChooser.ExtensionFilter("PNG", "*.png"),
-                        new FileChooser.ExtensionFilter("JPEG", "*.jpeg"),
-                        new FileChooser.ExtensionFilter("BMP", "*.bmp")
-                );
-
-                File selectedFile = fileChooser.showOpenDialog(stage);
-                Image image = new Image(selectedFile.toURI().toString()); //Convert File to Image for JavaFX
-                MapModel mapModel = new MapModel(selectedFile.getName(), image);
-                visibleModel.setCurrentView(mapModel);
-            }
-        });
-
-        //Closes popup when pressed
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                popup.hide();
-            }
-        });
-
-        popupGrid.add(openFileButton, 0, 0);
-        popupGrid.add(closeButton, 1, 0);
-
-        popup.getContent().add(popupGrid);
-        popup.setAutoHide(true);
-
-        popup.show(stage);
+        File selectedFile = fileChooser.showOpenDialog(getStage());
+        if (selectedFile == null) return;
+        Image image = new Image(selectedFile.toURI().toString()); //Convert File to Image for JavaFX
+        MapModel mapModel = new MapModel(selectedFile.getName(), image);
+        visibleModel.setCurrentView(mapModel);
     }
 
     @FXML

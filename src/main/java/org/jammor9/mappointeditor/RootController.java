@@ -1,6 +1,5 @@
 package org.jammor9.mappointeditor;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.AnchorPane;
@@ -10,7 +9,7 @@ import javafx.scene.layout.StackPane;
 import org.jammor9.mappointeditor.models.*;
 
 
-public class RootController implements MapListener {
+public class RootController implements ModelListener {
 
     @FXML public BorderPane root;
     @FXML public HBox mapView;
