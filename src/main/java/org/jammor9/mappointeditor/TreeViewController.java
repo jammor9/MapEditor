@@ -2,10 +2,15 @@ package org.jammor9.mappointeditor;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import org.jammor9.mappointeditor.models.*;
+
+import java.io.File;
 
 public class TreeViewController  implements ModelListener {
 
@@ -19,20 +24,18 @@ public class TreeViewController  implements ModelListener {
         visibleModel.registerListener(this);
         nodeView.setContextMenu(createContextMenu());
         createTreeViewCommands();
-
     }
 
     @Override
     public void update(Command c) {
         switch (c) {
-            case NEW_MAP -> headerItem.setValue(visibleModel.getCurrentView());
-            case ADD_TREE_CHILD -> updateTree();
+            case ADD_TREE_CHILD, NEW_PROJECT, NEW_MAP -> updateTree();
         }
     }
 
     //Updates the TreeView whenever a new ModelComposite is added
     private void updateTree() {
-        headerItem = visibleModel.getCurrentView().getTree();
+        headerItem = visibleModel.getProjectHeaderView().getTree();
         nodeView.setRoot(headerItem);
         nodeView.refresh();
     }
@@ -41,8 +44,8 @@ public class TreeViewController  implements ModelListener {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem rename = new MenuItem("Rename");
         Menu addSubMenu = new Menu("Add");
-        MenuItem addMap = new MenuItem("Add Map");
-        MenuItem addArticle = new MenuItem("Add Article");
+        MenuItem addMap = new MenuItem("New Map");
+        MenuItem addArticle = new MenuItem("New Article");
         MenuItem addFolder = new MenuItem("New Folder");
         addSubMenu.getItems().addAll(addMap, addArticle, addFolder);
 
@@ -71,6 +74,50 @@ public class TreeViewController  implements ModelListener {
             popup.show(nodeView.getScene().getWindow());
         });
 
+        //Creates a popup to create a new folder by asking for the name
+        addFolder.setOnAction(e-> {
+            //Create Popup
+            Popup popup = new Popup();
+            TextField textField = new TextField();
+            textField.setPromptText("Folder Name");
+            Pane pane = new Pane();
+            pane.getChildren().add(textField);
+            popup.getContent().add(pane);
+            popup.setAutoHide(true);
+            popup.show(nodeView.getScene().getWindow());
+
+            //Add Behaviour
+            pane.setOnKeyPressed(ke -> {
+                if (ke.getCode() == KeyCode.ENTER) {
+                    if (textField.getText().isEmpty()) popup.hide();
+                    FolderModel folderModel = new FolderModel(textField.getText());
+                    nodeView.getSelectionModel().getSelectedItem().getValue().add(folderModel);
+                    updateTree();
+                    popup.hide();
+                }
+            });
+        });
+
+        //Opens FileChooser then instantiates a new MapModel object from the image
+        //Adds the new MapModel to the ModelComposite tree from the currently selected item
+        addMap.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+
+            //Ensure you can only select images with fileChooser
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("PNG", "*.png"),
+                    new FileChooser.ExtensionFilter("JPEG", "*.jpeg"),
+                    new FileChooser.ExtensionFilter("BMP", "*.bmp")
+            );
+
+            File selectedFile = fileChooser.showOpenDialog(nodeView.getScene().getWindow());
+            if (selectedFile == null) return;
+            Image image = new Image(selectedFile.toURI().toString()); //Convert File to Image for JavaFX
+            MapModel mapModel = new MapModel(selectedFile.getName(), image);
+            nodeView.getSelectionModel().getSelectedItem().getValue().add(mapModel);
+            visibleModel.addMap(mapModel);
+        });
+
         contextMenu.getItems().add(rename);
         contextMenu.getItems().add(addSubMenu);
 
@@ -78,7 +125,6 @@ public class TreeViewController  implements ModelListener {
     }
 
     private void createTreeViewCommands() {
-
         nodeView.setOnMouseClicked(e -> {
             //Focuses on the selected TreeItem when the TreeView is double clicked
             if (e.getClickCount() == 2) {

@@ -6,6 +6,7 @@ public class VisibleModel {
     private ModelComposite currentView;
     private static VisibleModel singleton = null;
     private ArrayList<ModelListener> listeners;
+    private ModelComposite projectHeaderView;
 
     private VisibleModel() {
         this.currentView = null;
@@ -21,11 +22,14 @@ public class VisibleModel {
         this.currentView = newView;
         if (newView.getClass() == MapModel.class) for (ModelListener l : listeners) l.update(Command.NEW_MAP);
         else if (newView.getClass() == ArticleModel.class) for (ModelListener l : listeners) l.update(Command.OPEN_ARTICLE);
-        System.out.println("Test");
     }
 
     public ModelComposite getCurrentView() {
         return this.currentView;
+    }
+
+    public ModelComposite getProjectHeaderView() {
+        return this.projectHeaderView;
     }
 
     public void registerListener(ModelListener modelListener) {
@@ -39,5 +43,16 @@ public class VisibleModel {
     public void add(ModelComposite modelComposite) {
         currentView.add(modelComposite);
         for (ModelListener l : listeners) l.update(Command.ADD_TREE_CHILD);
+    }
+
+    public void newProject(FolderModel folderModel) {
+        this.currentView = folderModel;
+        this.projectHeaderView = folderModel;
+        for (ModelListener l : listeners) l.update(Command.NEW_PROJECT);
+    }
+
+    public void addMap(MapModel mapModel) {
+        currentView = mapModel;
+        for (ModelListener l : listeners) l.update(Command.NEW_MAP);
     }
 }

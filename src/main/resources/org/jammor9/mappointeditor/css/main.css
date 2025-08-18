@@ -17,7 +17,8 @@
 .combo-box:hover,
 .choice-box:hover,
 .dialogBox,
-.color-picker{
+.color-picker,
+.text-field{
     -fx-background-color:#404040;
 }
 
@@ -37,6 +38,10 @@
 
 .button{
     -fx-background-radius: 0;
+    -fx-text-fill: white;
+}
+
+.text-field {
     -fx-text-fill: white;
 }
 

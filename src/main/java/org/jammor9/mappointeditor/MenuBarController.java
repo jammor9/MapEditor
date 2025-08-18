@@ -2,14 +2,14 @@ package org.jammor9.mappointeditor;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
-import org.jammor9.mappointeditor.models.Command;
-import org.jammor9.mappointeditor.models.ModelListener;
-import org.jammor9.mappointeditor.models.MapModel;
-import org.jammor9.mappointeditor.models.VisibleModel;
+import org.jammor9.mappointeditor.models.*;
 
 import java.io.File;
 
@@ -27,6 +27,30 @@ public class MenuBarController implements ModelListener {
     @FXML
     public void initialize() {
         visibleModel.registerListener(this);
+    }
+
+    @FXML
+    //Generates a popup to enter the name of a new project, that creates the project
+    public void handleNewProject() {
+        //Create Popup
+        Popup popup = new Popup();
+        TextField textField = new TextField();
+        textField.setPromptText("Folder Name");
+        Pane pane = new Pane();
+        pane.getChildren().add(textField);
+        popup.getContent().add(pane);
+        popup.setAutoHide(true);
+        popup.show(getStage());
+
+        //Add Behaviour
+        pane.setOnKeyPressed(ke -> {
+            if (ke.getCode() == KeyCode.ENTER) {
+                if (textField.getText().isEmpty()) popup.hide();
+                FolderModel folderModel = new FolderModel(textField.getText());
+                visibleModel.newProject(folderModel);
+                popup.hide();
+            }
+        });
     }
 
     @FXML

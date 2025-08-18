@@ -37,6 +37,11 @@ public abstract class ModelComposite {
         return parent;
     }
 
+    public void setParent(ModelComposite parent) {
+        this.parent = parent;
+        parent.add(this);
+    }
+
     @Override
     public abstract String toString();
 
