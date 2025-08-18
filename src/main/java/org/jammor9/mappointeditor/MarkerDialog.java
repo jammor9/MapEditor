@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import org.jammor9.mappointeditor.models.MarkerModel;
 import org.jammor9.mappointeditor.models.modelfactory.ArticleFactory;
@@ -38,9 +39,13 @@ public class MarkerDialog extends Dialog<MarkerModel> {
     private void createWindow() {
         GridPane gridPane = new GridPane();
         gridPane.add(nameField, 0, 0);
-        gridPane.add(choiceBox, 0, 1);
+        Label choiceBoxLabel = new Label("Marker Type");
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(choiceBoxLabel, choiceBox);
+        gridPane.add(hBox, 0, 1);
         getDialogPane().setContent(gridPane);
         getDialogPane().getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
+        getDialogPane().getStyleClass().add("dialogBox");
         getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
     }
 

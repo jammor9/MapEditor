@@ -8,25 +8,36 @@
     -fx-color: black;
 }
 
-.scroll-pane {
-    -fx-background-color: transparent;
-}
-
-.scroll-pane .viewport {
-    -fx-background-color: #2e2d2d;
-}
-
 .context-menu {
     -fx-background-color:#404040;
 }
 
-.button {
+.button,
+.toggle-button,
+.combo-box:hover,
+.choice-box:hover,
+.dialogBox,
+.color-picker{
     -fx-background-color:#404040;
-    -fx-background-radius: 0;
 }
 
-.button:hover {
+.combo-box,
+.choice-box,
+.dialogBox .button{
+    -fx-background-color:#242424;
+}
+
+.button:hover,
+.toggle-button:hover,
+.combo-box:hover,
+.dialogBox .button:hover,
+.color-picker:hover{
     -fx-background-color: #6e6e6e;
+}
+
+.button{
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
 }
 
 /*CSS Styling for the MenuBar*/
@@ -45,7 +56,7 @@
 
 /*CSS Styling for TreeView*/
 #treeBox {
-    -fx-border-color: black;
+    -fx-border-color: transparent;
     -fx-border-insets: 3;
 }
 
@@ -60,4 +71,33 @@
 
 .tree-cell:selected {
     -fx-background-color: #288fbf;
+}
+
+/*CSS Styling for MapView*/
+#mapBox {
+    -fx-border-color: transparent;
+    -fx-border-insets: 3;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #2e2d2d;
+}
+
+/*HTMLEditor Styling*/
+#editorPane {
+    -fx-border-color: transparent;
+    -fx-border-insets: 3;
+}
+
+.html-editor .grid .top-toolbar,
+.html-editor .grid .bottom-toolbar {
+    -fx-background-color: #404040;
+}
+
+.html-edtir .grid .top-toolbar .format-menu-button {
+    -fx-background-color: white;
 }

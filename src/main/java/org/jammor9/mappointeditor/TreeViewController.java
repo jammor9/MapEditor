@@ -40,6 +40,11 @@ public class TreeViewController  implements ModelListener {
     private ContextMenu createContextMenu() {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem rename = new MenuItem("Rename");
+        Menu addSubMenu = new Menu("Add");
+        MenuItem addMap = new MenuItem("Add Map");
+        MenuItem addArticle = new MenuItem("Add Article");
+        MenuItem addFolder = new MenuItem("New Folder");
+        addSubMenu.getItems().addAll(addMap, addArticle, addFolder);
 
         //Allows you to rename the ModelComposite via opening a popup, does not allow empty names
         rename.setOnAction(e -> {
@@ -67,6 +72,7 @@ public class TreeViewController  implements ModelListener {
         });
 
         contextMenu.getItems().add(rename);
+        contextMenu.getItems().add(addSubMenu);
 
         return contextMenu;
     }

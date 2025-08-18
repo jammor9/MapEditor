@@ -10,6 +10,7 @@
 <?import org.jammor9.mappointeditor.ZoomableScrollPane?>
 <HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.jammor9.mappointeditor.MapViewController">
+            fx:controller="org.jammor9.mappointeditor.MapViewController"
+            fx:id="mapBox">
     <ZoomableScrollPane fx:id="mapViewScrollPane" prefWidth="2000" pannable="true"/>
 </HBox>
