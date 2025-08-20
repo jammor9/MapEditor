@@ -20,7 +20,7 @@ public class VisibleModel {
 
     public void setCurrentView(ModelComposite newView) {
         this.currentView = newView;
-        if (newView.getClass() == MapModel.class) for (ModelListener l : listeners) l.update(Command.NEW_MAP);
+        if (newView.getClass() == MapModel.class) for (ModelListener l : listeners) l.update(Command.OPEN_MAP);
         else if (newView.getClass() == ArticleModel.class) for (ModelListener l : listeners) l.update(Command.OPEN_ARTICLE);
     }
 

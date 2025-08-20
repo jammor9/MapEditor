@@ -42,6 +42,7 @@
 }
 
 .text-field {
+    -fx-prompt-text-fill: derive(white,-30%);
     -fx-text-fill: white;
 }
 

@@ -29,7 +29,7 @@ public class TreeViewController  implements ModelListener {
     @Override
     public void update(Command c) {
         switch (c) {
-            case ADD_TREE_CHILD, NEW_PROJECT, NEW_MAP -> updateTree();
+            case ADD_TREE_CHILD, NEW_PROJECT, NEW_MAP, OPEN_MAP -> updateTree();
         }
     }
 
@@ -37,7 +37,7 @@ public class TreeViewController  implements ModelListener {
     private void updateTree() {
         headerItem = visibleModel.getProjectHeaderView().getTree();
         nodeView.setRoot(headerItem);
-        nodeView.refresh();
+        nodeView.refresh();;
     }
 
     private ContextMenu createContextMenu() {

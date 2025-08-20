@@ -43,7 +43,7 @@ public class RootController implements ModelListener {
     @Override
     public void update(Command c) {
         switch(c) {
-            case NEW_MAP -> openMapEditor();
+            case NEW_MAP, OPEN_MAP -> openMapEditor();
             case OPEN_ARTICLE -> openTextEditor();
         }
     }

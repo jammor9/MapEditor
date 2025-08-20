@@ -57,7 +57,7 @@ public class MapViewController implements ModelListener {
         });
     }
 
-    public void loadMap() {
+    private void loadMap() {
         MapModel mapModel = getVisibleMap();
         mapImageView.setImage(mapModel.getMapImage());
     }
@@ -65,8 +65,7 @@ public class MapViewController implements ModelListener {
     @Override
     public void update(Command c) {
         switch (c) {
-            case NEW_MAP -> loadMap();
-            case ADD_TREE_CHILD -> updateImageView();
+            case ADD_TREE_CHILD, NEW_MAP, OPEN_MAP -> updateImageView();
         }
     }
 
@@ -91,6 +90,7 @@ public class MapViewController implements ModelListener {
 
     //Creates all the ImageViews used by the Map, including markers and the map itself
     public void updateImageView() {
+        mapImageView.setImage(getVisibleMap().getMapImage());
         ArrayList<ModelComposite> children = getVisibleMap().getChildren();
         imageGroup.getChildren().clear();
         imageGroup.getChildren().add(mapImageView);
@@ -100,10 +100,11 @@ public class MapViewController implements ModelListener {
                 double x = ((MarkerModel) mc).getX();
                 double y = ((MarkerModel) mc).getY();
                 ImageView markerView = createMarkerView(x, y, markerImage, (MarkerModel) mc);
+                markerView.setPreserveRatio(true);
+                markerView.setFitWidth(0.05*mapImageView.getImage().getWidth());
                 imageGroup.getChildren().add(markerView);
             }
         }
-        loadMap();
     }
 
     //Creates a new MarkerView with appropriate functionality
@@ -115,10 +116,16 @@ public class MapViewController implements ModelListener {
         //Adds dragging functionality so that the marker can be moved
         markerView.setOnMouseDragged(e -> {
             mapViewScrollPane.setPannable(false);
-            if (e.getX() > 0 && e.getX() < mapImageView.getImage().getWidth()) markerView.setX(e.getX() - markerView.getImage().getWidth()/2);
-            if (e.getY() > 0 && e.getY() < mapImageView.getImage().getHeight()) markerView.setY(e.getY() - markerView.getImage().getHeight());
+            if (e.getX() > 0 && e.getX() < mapImageView.getImage().getWidth()) markerView.setX(e.getX() - markerView.getFitWidth()/2);
+            markerView.setX(Math.clamp(markerView.getX(), 1, mapImageView.getImage().getWidth()-1));
+            if (e.getY() > 0 && e.getY() < mapImageView.getImage().getHeight()) markerView.setY(e.getY() - markerView.getFitWidth());
+            markerView.setY(Math.clamp(markerView.getY(), 1, mapImageView.getImage().getHeight()-1));
+            System.out.println("X: " + e.getX() + " Y: " + e.getY());
         });
 
+        markerView.setOnMouseClicked(e -> {
+            visibleModel.setCurrentView(mc.getMarkerType());
+        });
 
         //Once drag has finished make the ScrollPane pannable again and update marker coords
         markerView.setOnMouseReleased(e -> {

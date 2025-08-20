@@ -35,7 +35,7 @@ public class MenuBarController implements ModelListener {
         //Create Popup
         Popup popup = new Popup();
         TextField textField = new TextField();
-        textField.setPromptText("Folder Name");
+        textField.setPromptText("Project Name");
         Pane pane = new Pane();
         pane.getChildren().add(textField);
         popup.getContent().add(pane);

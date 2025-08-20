@@ -1,9 +1,5 @@
 package org.jammor9.mappointeditor;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -12,14 +8,11 @@ import org.jammor9.mappointeditor.models.MarkerModel;
 import org.jammor9.mappointeditor.models.modelfactory.ArticleFactory;
 import org.jammor9.mappointeditor.models.modelfactory.ModelFactory;
 
-import javax.swing.*;
-
 public class MarkerDialog extends Dialog<MarkerModel> {
     private MarkerModel marker;
 
     private TextField nameField;
     private ChoiceBox<ModelFactory> choiceBox;
-    private boolean badResult = false;
 
     public MarkerDialog(MarkerModel markerModel) {
         super();
