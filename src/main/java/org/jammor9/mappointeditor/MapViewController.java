@@ -2,22 +2,18 @@ package org.jammor9.mappointeditor;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.jammor9.mappointeditor.models.*;
-import org.jammor9.mappointeditor.models.modelfactory.ArticleFactory;
-import org.jammor9.mappointeditor.models.modelfactory.ModelFactory;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 public class MapViewController implements ModelListener {
@@ -166,7 +162,7 @@ public class MapViewController implements ModelListener {
         MarkerModel markerModel = new MarkerModel();
         markerModel.setX(mousePointX);
         markerModel.setY(mousePointY);
-        markerModel.setMarkerImage(new Image(mapViewScrollPane.getClass().getResource("img/marker2.png").toExternalForm()));
+        markerModel.setMarkerImage(new Image(Objects.requireNonNull(mapViewScrollPane.getClass().getResource("img/marker2.png")).toExternalForm()));
         Dialog<MarkerModel> markerDialog = new MarkerDialog(markerModel); //Open a Dialog Box to create a new Marker
         Optional<MarkerModel> result = markerDialog.showAndWait();
         if (result.isPresent()) {
@@ -177,16 +173,16 @@ public class MapViewController implements ModelListener {
 
     //Set marker scale
     public void setMarkerScale() {
-        Popup popup = new Popup();
-        TextField textField = new TextField();
-        textField.setPromptText("Enter decimal (0-1)");
-        Pane pane = new Pane(textField);
+        Popup popup = Utils.getQuickInputPopup("Enter Decimal (0-1)");
+        TextField t = (TextField) popup.getContent().getFirst();
 
-        textField.setOnKeyPressed(e -> {
+        t.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                if (textField.getText().isEmpty()) popup.hide();
+                if (t.getText().isEmpty()) popup.hide();
                 try {
-                    getVisibleMap().setMarkerScale(Double.parseDouble(textField.getText()));
+                    double d = Double.parseDouble(t.getText());
+                    d = Math.clamp(d, 0, 1);
+                    getVisibleMap().setMarkerScale(d);
                     popup.hide();
                     updateImageView();
                 } catch (NumberFormatException ex) {
@@ -195,8 +191,6 @@ public class MapViewController implements ModelListener {
             }
         });
 
-        popup.getContent().add(pane);
-        popup.setAutoHide(true);
         popup.show(getStage());
     }
 

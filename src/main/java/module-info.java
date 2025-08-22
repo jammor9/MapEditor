@@ -10,6 +10,7 @@ module org.jammor9.mappointeditor {
     requires java.naming;
     requires jdk.compiler;
     requires java.desktop;
+    requires jdk.jshell;
 
     opens org.jammor9.mappointeditor to javafx.fxml;
     exports org.jammor9.mappointeditor;

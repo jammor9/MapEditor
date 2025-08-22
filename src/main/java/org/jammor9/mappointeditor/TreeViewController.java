@@ -11,6 +11,7 @@ import javafx.stage.Popup;
 import org.jammor9.mappointeditor.models.*;
 
 import java.io.File;
+import java.security.Key;
 
 public class TreeViewController  implements ModelListener {
 
@@ -78,25 +79,22 @@ public class TreeViewController  implements ModelListener {
         //Creates a popup to create a new folder by asking for the name
         addFolder.setOnAction(e-> {
             //Create Popup
-            Popup popup = new Popup();
-            TextField textField = new TextField();
-            textField.setPromptText("Folder Name");
-            Pane pane = new Pane();
-            pane.getChildren().add(textField);
-            popup.getContent().add(pane);
-            popup.setAutoHide(true);
-            popup.show(nodeView.getScene().getWindow());
-
+            Popup popup = Utils.getQuickInputPopup("Folder Name");
+            TextField t = (TextField) popup.getContent().getFirst();
+            
             //Add Behaviour
-            pane.setOnKeyPressed(ke -> {
+            t.setOnKeyPressed(ke -> {
                 if (ke.getCode() == KeyCode.ENTER) {
-                    if (textField.getText().isEmpty()) popup.hide();
-                    FolderModel folderModel = new FolderModel(textField.getText());
+                    if (t.getText().isEmpty()) popup.hide();
+                    FolderModel folderModel = new FolderModel(t.getText());
                     nodeView.getSelectionModel().getSelectedItem().getValue().add(folderModel);
                     updateTree();
                     popup.hide();
                 }
             });
+
+            popup.show(nodeView.getScene().getWindow());
+
         });
 
         //Opens FileChooser then instantiates a new MapModel object from the image
@@ -117,6 +115,26 @@ public class TreeViewController  implements ModelListener {
             MapModel mapModel = new MapModel(selectedFile.getName(), image);
             nodeView.getSelectionModel().getSelectedItem().getValue().add(mapModel);
             visibleModel.addMap(mapModel);
+        });
+
+        //Instantiate a new article
+        addArticle.setOnAction(e -> {
+            Popup popup = Utils.getQuickInputPopup("Article Name");
+            TextField t = (TextField) popup.getContent().getFirst();
+
+            t.setOnKeyPressed(ke -> {
+                if (ke.getCode() == KeyCode.ENTER) {
+                    if (!t.getText().isEmpty()) {
+                        ArticleModel articleModel= new ArticleModel();
+                        articleModel.setName(t.getText());
+                        nodeView.getSelectionModel().getSelectedItem().getValue().add(articleModel);
+                        updateTree();
+                    }
+                    popup.hide();
+                }
+            });
+
+            popup.show(nodeView.getScene().getWindow());
         });
 
         contextMenu.getItems().add(rename);

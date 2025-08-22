@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import org.jammor9.mappointeditor.models.MarkerModel;
 import org.jammor9.mappointeditor.models.modelfactory.ArticleFactory;
+import org.jammor9.mappointeditor.models.modelfactory.MapFactory;
 import org.jammor9.mappointeditor.models.modelfactory.ModelFactory;
 
 public class MarkerDialog extends Dialog<MarkerModel> {
@@ -27,6 +28,7 @@ public class MarkerDialog extends Dialog<MarkerModel> {
     private void createChoiceBox() {
         this.choiceBox = new ChoiceBox<>();
         choiceBox.getItems().add(new ArticleFactory());
+        choiceBox.getItems().add(new MapFactory());
     }
 
     private void createWindow() {

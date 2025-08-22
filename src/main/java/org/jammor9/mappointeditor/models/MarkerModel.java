@@ -4,6 +4,8 @@ import javafx.beans.property.*;
 import javafx.scene.image.Image;
 import org.jammor9.mappointeditor.models.modelfactory.ModelFactory;
 
+import java.util.ArrayList;
+
 public class MarkerModel extends ModelComposite {
 
     private StringProperty markerName;
@@ -24,6 +26,21 @@ public class MarkerModel extends ModelComposite {
     @Override
     public void setName(String s) {
         setMarkerNameProperty(new SimpleStringProperty(s));
+    }
+
+    @Override
+    public ArrayList<ModelComposite> getChildren() {
+        return markerType.get().getChildren();
+    }
+
+    @Override
+    public void add(ModelComposite mc) {
+        markerType.get().add(mc);
+    }
+
+    @Override
+    public void remove(ModelComposite mc) {
+        markerType.get().remove(mc);
     }
 
     public StringProperty getMarkerNameProperty() {

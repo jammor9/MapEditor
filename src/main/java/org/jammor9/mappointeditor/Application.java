@@ -14,6 +14,7 @@ public class Application extends javafx.application.Application {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
     private static final String WINDOW_NAME = "Map Editor";
+    private static Stage staticStage;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -24,7 +25,12 @@ public class Application extends javafx.application.Application {
         stage.setScene(scene);
         stage.initStyle(StageStyle.DECORATED);
         stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("img/marker.png"))));
+        staticStage = stage;
         stage.show();
+    }
+
+    public static Stage getStage() {
+        return staticStage;
     }
 
     public static void main(String[] args) {

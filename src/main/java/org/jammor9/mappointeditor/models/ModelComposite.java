@@ -29,7 +29,7 @@ public abstract class ModelComposite {
     //Returns a tree structure of the entire composite model to be read via TreeView
     public TreeItem<ModelComposite> getTree() {
         TreeItem<ModelComposite> root = new TreeItem<>(this);
-        for (ModelComposite mc : children) root.getChildren().addAll(mc.getTree());
+        for (ModelComposite mc : root.getValue().getChildren()) root.getChildren().addAll(mc.getTree());
         return root;
     }
 

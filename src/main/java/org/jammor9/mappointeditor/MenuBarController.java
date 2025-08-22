@@ -33,42 +33,20 @@ public class MenuBarController implements ModelListener {
     //Generates a popup to enter the name of a new project, that creates the project
     public void handleNewProject() {
         //Create Popup
-        Popup popup = new Popup();
-        TextField textField = new TextField();
-        textField.setPromptText("Project Name");
-        Pane pane = new Pane();
-        pane.getChildren().add(textField);
-        popup.getContent().add(pane);
-        popup.setAutoHide(true);
-        popup.show(getStage());
+        Popup popup = Utils.getQuickInputPopup("Project Name");
+        TextField t = (TextField) popup.getContent().getFirst();
 
         //Add Behaviour
-        pane.setOnKeyPressed(ke -> {
+        t.setOnKeyPressed(ke -> {
             if (ke.getCode() == KeyCode.ENTER) {
-                if (textField.getText().isEmpty()) popup.hide();
-                FolderModel folderModel = new FolderModel(textField.getText());
+                if (t.getText().isEmpty()) popup.hide();
+                FolderModel folderModel = new FolderModel(t.getText());
                 visibleModel.newProject(folderModel);
                 popup.hide();
             }
         });
-    }
 
-    @FXML
-    public void handleNewMap() {
-        FileChooser fileChooser = new FileChooser();
-
-        //Ensure you can only select images with fileChooser
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("PNG", "*.png"),
-                new FileChooser.ExtensionFilter("JPEG", "*.jpeg"),
-                new FileChooser.ExtensionFilter("BMP", "*.bmp")
-        );
-
-        File selectedFile = fileChooser.showOpenDialog(getStage());
-        if (selectedFile == null) return;
-        Image image = new Image(selectedFile.toURI().toString()); //Convert File to Image for JavaFX
-        MapModel mapModel = new MapModel(selectedFile.getName(), image);
-        visibleModel.setCurrentView(mapModel);
+        popup.show(getStage());
     }
 
     @FXML
