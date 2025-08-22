@@ -12,8 +12,8 @@
     <MenuBar>
         <Menu text="File">
             <MenuItem fx:id="newProjectButton" onAction="#handleNewProject" text="New Project"/>
-            <MenuItem fx:id="openProjectButton" text="Open..."/>
-            <MenuItem fx:id="saveProjectButton" text="Save"/>
+            <MenuItem fx:id="openProjectButton" text="Open..." onAction="#handleLoad"/>
+            <MenuItem fx:id="saveProjectButton" text="Save" onAction="#handleSave"/>
             <MenuItem fx:id="quitButton" text="Quit" onAction="#closeApplication"/>
         </Menu>
     </MenuBar>

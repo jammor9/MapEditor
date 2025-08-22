@@ -1,6 +1,7 @@
 package org.jammor9.mappointeditor;
 
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
 import javafx.scene.web.HTMLEditor;
 import org.jammor9.mappointeditor.models.ArticleModel;
 import org.jammor9.mappointeditor.models.Command;
@@ -9,13 +10,28 @@ import org.jammor9.mappointeditor.models.VisibleModel;
 
 public class EditorViewController implements ModelListener {
     @FXML public HTMLEditor articleEditor;
-    VisibleModel visibleModel = VisibleModel.getInstance();
-    ArticleModel currentModelData;
+    private VisibleModel visibleModel = VisibleModel.getInstance();
+    private ArticleModel currentModelData;
+    private boolean ctrlPressed = false;
 
     @FXML
     public void initialize() {
         visibleModel.registerListener(this);
         currentModelData = null;
+
+        articleEditor.setOnKeyPressed(e -> {
+            if (currentModelData == null) return;
+
+            if (e.getCode() == KeyCode.CONTROL) ctrlPressed = true;
+
+            if (e.getCode() == KeyCode.S && ctrlPressed) {
+                currentModelData.setArticleData(articleEditor.getHtmlText());
+            }
+        });
+
+        articleEditor.setOnKeyReleased(e -> {
+            if (e.getCode() == KeyCode.CONTROL) ctrlPressed = false;
+        });
     }
 
     @Override

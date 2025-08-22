@@ -6,51 +6,42 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 
 public class MapModel extends ModelComposite {
-    private StringProperty mapNameProperty;
-    private ObjectProperty<Image> mapImageProperty;
-    private DoubleProperty markerScale;
 
-    public MapModel(String mapName, Image image) {
-        this.mapNameProperty = new SimpleStringProperty(mapName);
-        this.mapImageProperty = new SimpleObjectProperty<>(image);
-        this.markerScale = new SimpleDoubleProperty(0.05);
-    }
+    private static final String CLASS_META_KEY = MapModel.class.getCanonicalName();
 
-    public void createNewMap(String mapName, Image image) {
-        this.mapNameProperty.set(mapName);
-        this.mapImageProperty.set(image);
-    }
+    private String mapName;
+    private String imgUrl;
+    private double markerScale;
 
-    public StringProperty getMapNameProperty() {
-        return this.mapNameProperty;
+    public MapModel(String mapName, String imgUrl) {
+        super(CLASS_META_KEY);
+        this.mapName = mapName;
+        this.imgUrl = imgUrl;
+        this.markerScale = 0.05;
     }
 
     public String getMapName() {
-        return this.mapNameProperty.get();
+        return this.mapName;
     }
 
     public void setMapName(String s) {
-        mapNameProperty = new SimpleStringProperty(s);
+        this.mapName = s;
+    }
+
+    public String getImgUrl() {
+        return this.imgUrl;
     }
 
     public Image getMapImage() {
-        return this.mapImageProperty.get();
-    }
-
-    public ObjectProperty<Image> getMapImageProperty() {
-        return this.mapImageProperty;
-    }
-
-    public DoubleProperty getMarkerScaleProperty() {
-        return this.markerScale;
+        return new Image(imgUrl);
     }
 
     public Double getMarkerScale() {
-        return this.markerScale.get();
+        return this.markerScale;
     }
 
     public void setMarkerScale(Double d) {
-        this.markerScale = new SimpleDoubleProperty(d);
+        this.markerScale = d;
     }
 
     @Override

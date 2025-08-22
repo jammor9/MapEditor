@@ -1,4 +1,4 @@
-package org.jammor9.mappointeditor;
+package org.jammor9.mappointeditor.Utils;
 
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;

@@ -6,20 +6,19 @@ import java.util.ArrayList;
 
 public abstract class ModelComposite {
     private ArrayList<ModelComposite> children;
-    private ModelComposite parent;
+    private final String CLASS_META_KEY;
 
-    public ModelComposite() {
+    public ModelComposite(String CLASS_META_KEY) {
+        this.CLASS_META_KEY = CLASS_META_KEY;
         children = new ArrayList<>();
     }
 
     public void add(ModelComposite modelComposite) {
         children.add(modelComposite);
-        modelComposite.parent = this;
     }
 
     public void remove(ModelComposite modelComposite) {
         children.remove(modelComposite);
-        modelComposite.parent = null;
     }
 
     public ArrayList<ModelComposite> getChildren() {
@@ -33,13 +32,8 @@ public abstract class ModelComposite {
         return root;
     }
 
-    public ModelComposite getParent() {
-        return parent;
-    }
-
-    public void setParent(ModelComposite parent) {
-        this.parent = parent;
-        parent.add(this);
+    public String getClassMetaKey() {
+        return CLASS_META_KEY;
     }
 
     @Override

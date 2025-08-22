@@ -7,10 +7,12 @@ public class VisibleModel {
     private static VisibleModel singleton = null;
     private ArrayList<ModelListener> listeners;
     private ModelComposite projectHeaderView;
+    private boolean activeProject;
 
     private VisibleModel() {
         this.currentView = null;
         this.listeners = new ArrayList<>();
+        this.activeProject = false;
     }
 
     public static VisibleModel getInstance() {
@@ -49,10 +51,15 @@ public class VisibleModel {
         this.currentView = folderModel;
         this.projectHeaderView = folderModel;
         for (ModelListener l : listeners) l.update(Command.NEW_PROJECT);
+        this.activeProject = true;
     }
 
     public void addMap(MapModel mapModel) {
         currentView = mapModel;
         for (ModelListener l : listeners) l.update(Command.NEW_MAP);
+    }
+
+    public boolean isActiveProject() {
+        return this.activeProject;
     }
 }

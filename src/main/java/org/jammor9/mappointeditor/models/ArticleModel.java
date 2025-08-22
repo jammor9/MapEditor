@@ -5,31 +5,27 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.web.HTMLEditor;
 
 public class ArticleModel extends ModelComposite{
-    private StringProperty articleName;
-    private StringProperty articleData;
+
+    private static final String CLASS_META_KEY = ArticleModel.class.getCanonicalName();
+
+    private String articleName;
+    private String articleData;
 
     public ArticleModel() {
-        articleData = new SimpleStringProperty("");
-    }
-
-    public StringProperty getArticleNameProperty() {
-        return this.articleName;
+        super(CLASS_META_KEY);
+        articleData = "";
     }
 
     public String getName() {
-        return this.articleName.get();
-    }
-
-    public StringProperty getArticleDataProperty() {
-        return this.articleData;
+        return this.articleName;
     }
 
     public String getArticleData() {
-        return this.articleData.get();
+        return this.articleData;
     }
 
     public void setArticleData(String s) {
-        this.articleData = new SimpleStringProperty(s);
+        this.articleData = s;
     }
 
     @Override
@@ -39,6 +35,6 @@ public class ArticleModel extends ModelComposite{
 
     @Override
     public void setName(String s) {
-        this.articleName = new SimpleStringProperty(s);
+        this.articleName = s;
     }
 }

@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.jammor9.mappointeditor.Utils.Utils;
 import org.jammor9.mappointeditor.models.*;
 
 import java.util.ArrayList;
@@ -162,7 +163,7 @@ public class MapViewController implements ModelListener {
         MarkerModel markerModel = new MarkerModel();
         markerModel.setX(mousePointX);
         markerModel.setY(mousePointY);
-        markerModel.setMarkerImage(new Image(Objects.requireNonNull(mapViewScrollPane.getClass().getResource("img/marker2.png")).toExternalForm()));
+        markerModel.setMarkerImage(Objects.requireNonNull(mapViewScrollPane.getClass().getResource("img/marker2.png")).toExternalForm());
         Dialog<MarkerModel> markerDialog = new MarkerDialog(markerModel); //Open a Dialog Box to create a new Marker
         Optional<MarkerModel> result = markerDialog.showAndWait();
         if (result.isPresent()) {

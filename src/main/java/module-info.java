@@ -11,11 +11,14 @@ module org.jammor9.mappointeditor {
     requires jdk.compiler;
     requires java.desktop;
     requires jdk.jshell;
+    requires com.google.gson;
 
-    opens org.jammor9.mappointeditor to javafx.fxml;
+    opens org.jammor9.mappointeditor to com.google.gson, javafx.fxml;
     exports org.jammor9.mappointeditor;
     exports org.jammor9.mappointeditor.models;
-    opens org.jammor9.mappointeditor.models to javafx.fxml;
+    opens org.jammor9.mappointeditor.models to javafx.fxml, com.google.gson;
     exports org.jammor9.mappointeditor.models.modelfactory;
     opens org.jammor9.mappointeditor.models.modelfactory to javafx.fxml;
+    exports org.jammor9.mappointeditor.Utils;
+    opens org.jammor9.mappointeditor.Utils to javafx.fxml;
 }

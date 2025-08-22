@@ -1,17 +1,15 @@
 package org.jammor9.mappointeditor;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.jammor9.mappointeditor.Utils.Utils;
 import org.jammor9.mappointeditor.models.*;
-
-import java.io.File;
 
 public class MenuBarController implements ModelListener {
 
@@ -53,6 +51,18 @@ public class MenuBarController implements ModelListener {
     public void closeApplication() {
         Stage stage = getStage();
         stage.close();
+    }
+
+    @FXML
+    public void handleSave(ActionEvent actionEvent) {
+        if (!visibleModel.isActiveProject()) return;
+
+        SaveAndLoad.saveFile();;
+    }
+
+    @FXML
+    public void handleLoad(ActionEvent actionEvent) {
+        SaveAndLoad.loadFile();
     }
 
     private Stage getStage() {

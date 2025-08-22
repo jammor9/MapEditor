@@ -6,22 +6,21 @@ import javafx.beans.property.StringProperty;
 //A simple container that holds ModelComposites that have actual data
 public class FolderModel extends ModelComposite {
 
-    private StringProperty folderName;
+    private static final String CLASS_META_KEY = FolderModel.class.getCanonicalName();
+
+    private String folderName;
 
     public FolderModel(String folderName) {
-        this.folderName = new SimpleStringProperty(folderName);
+        super(CLASS_META_KEY);
+        this.folderName = folderName;
     }
 
     public String getFolderName() {
-        return folderName.get();
-    }
-
-    public StringProperty getFolderNameProperty() {
-        return folderName;
+        return this.folderName;
     }
 
     public void setFolderName(String folderName) {
-        this.folderName = new SimpleStringProperty(folderName);
+        this.folderName = folderName;
     }
 
     @Override

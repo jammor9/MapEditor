@@ -8,14 +8,16 @@ import java.util.ArrayList;
 
 public class MarkerModel extends ModelComposite {
 
-    private StringProperty markerName;
-    private ObjectProperty<Image> markerImage;
-    private ObjectProperty<ModelComposite> markerType;
+    private static final String CLASS_META_KEY = MarkerModel.class.getCanonicalName();
+
+    private String markerName;
+    private String markerImageURL;
+    private ModelComposite markerType;
     private double x;
     private double y;
 
     public MarkerModel() {
-        this.markerType = new SimpleObjectProperty<>();
+        super(CLASS_META_KEY);
     }
 
     @Override
@@ -25,46 +27,38 @@ public class MarkerModel extends ModelComposite {
 
     @Override
     public void setName(String s) {
-        setMarkerNameProperty(new SimpleStringProperty(s));
+        setMarkerName(s);
     }
 
     @Override
     public ArrayList<ModelComposite> getChildren() {
-        return markerType.get().getChildren();
+        return markerType.getChildren();
     }
 
     @Override
     public void add(ModelComposite mc) {
-        markerType.get().add(mc);
+        markerType.add(mc);
     }
 
     @Override
     public void remove(ModelComposite mc) {
-        markerType.get().remove(mc);
-    }
-
-    public StringProperty getMarkerNameProperty() {
-        return this.markerName;
+        markerType.remove(mc);
     }
 
     public String getMarkerName() {
-        return this.markerName.get();
+        return this.markerName;
     }
 
-    public void setMarkerNameProperty(StringProperty markerName) {
+    public void setMarkerName(String markerName) {
         this.markerName = markerName;
     }
 
-    public ObjectProperty<Image> getMarkerImageProperty() {
-        return this.markerImage;
-    }
-
     public Image getMarkerImage() {
-        return this.markerImage.get();
+        return new Image(this.markerImageURL);
     }
 
-    public void setMarkerImage(Image image) {
-        this.markerImage = new SimpleObjectProperty<>(image);
+    public void setMarkerImage(String markerImageURL) {
+        this.markerImageURL = markerImageURL;
     }
 
     public double getX() {
@@ -84,14 +78,10 @@ public class MarkerModel extends ModelComposite {
     }
 
     public ModelComposite getMarkerType() {
-        return this.markerType.get();
+        return this.markerType;
     }
 
     public void setMarkerType(ModelComposite markerType) {
-        this.markerType = new SimpleObjectProperty<>(markerType);
-    }
-
-    public ObjectProperty<ModelComposite> getMarkerTypeProperty() {
-        return this.markerType;
+        this.markerType = markerType;
     }
 }

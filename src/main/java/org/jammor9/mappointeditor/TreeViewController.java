@@ -5,13 +5,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
+import org.jammor9.mappointeditor.Utils.Utils;
 import org.jammor9.mappointeditor.models.*;
 
 import java.io.File;
-import java.security.Key;
 
 public class TreeViewController  implements ModelListener {
 
@@ -81,7 +80,7 @@ public class TreeViewController  implements ModelListener {
             //Create Popup
             Popup popup = Utils.getQuickInputPopup("Folder Name");
             TextField t = (TextField) popup.getContent().getFirst();
-            
+
             //Add Behaviour
             t.setOnKeyPressed(ke -> {
                 if (ke.getCode() == KeyCode.ENTER) {
@@ -111,8 +110,7 @@ public class TreeViewController  implements ModelListener {
 
             File selectedFile = fileChooser.showOpenDialog(nodeView.getScene().getWindow());
             if (selectedFile == null) return;
-            Image image = new Image(selectedFile.toURI().toString()); //Convert File to Image for JavaFX
-            MapModel mapModel = new MapModel(selectedFile.getName(), image);
+            MapModel mapModel = new MapModel(selectedFile.getName(), selectedFile.toURI().toString());
             nodeView.getSelectionModel().getSelectedItem().getValue().add(mapModel);
             visibleModel.addMap(mapModel);
         });

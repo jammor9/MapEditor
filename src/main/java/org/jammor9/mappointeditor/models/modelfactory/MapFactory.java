@@ -27,9 +27,8 @@ public class MapFactory implements ModelFactory{
 
         File selectedFile = fileChooser.showOpenDialog(Application.getStage());
         if (selectedFile == null) return null;
-        Image image = new Image(selectedFile.toURI().toString()); //Convert File to Image for JavaFX
 
-        return new MapModel(name, image);
+        return new MapModel(name, selectedFile.toURI().toString());
     }
 
     @Override
