@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.jammor9.mappointeditor.models.*;
@@ -73,13 +74,19 @@ public class MapViewController implements ModelListener {
     private ContextMenu createContextMenu() {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem createMarker = new MenuItem("Create Marker");
+        MenuItem setMarkerScale = new MenuItem("Set Marker Scale");
 
         //Generates a marker from input when clicked
         createMarker.setOnAction(e -> {
             createMarker();
         });
 
-        contextMenu.getItems().addAll(createMarker);
+        //Sets scale of markers relative to the map
+        setMarkerScale.setOnAction(e -> {
+            setMarkerScale();
+        });
+
+        contextMenu.getItems().addAll(createMarker, setMarkerScale);
 
         return contextMenu;
     }
@@ -100,8 +107,7 @@ public class MapViewController implements ModelListener {
                 double x = ((MarkerModel) mc).getX();
                 double y = ((MarkerModel) mc).getY();
                 ImageView markerView = createMarkerView(x, y, markerImage, (MarkerModel) mc);
-                markerView.setPreserveRatio(true);
-                markerView.setFitWidth(0.05*mapImageView.getImage().getWidth());
+
                 imageGroup.getChildren().add(markerView);
             }
         }
@@ -110,17 +116,21 @@ public class MapViewController implements ModelListener {
     //Creates a new MarkerView with appropriate functionality
     private ImageView createMarkerView(double x, double y, Image img, MarkerModel mc) {
         ImageView markerView = new ImageView(img);
-        markerView.setX(x - img.getWidth()/2);
-        markerView.setY(y - img.getHeight());
+
+        //Scale the markerView to the size of the map image
+        markerView.setFitWidth(getVisibleMap().getMarkerScale()*mapImageView.getImage().getWidth());
+        markerView.setFitHeight(getVisibleMap().getMarkerScale()*mapImageView.getImage().getHeight());
+        markerView.setPreserveRatio(true);
+        markerView.setX(x - markerView.getFitWidth()/3); //Dividing by 3 centres the image at the mouse point
+        markerView.setY(y - markerView.getFitHeight());
 
         //Adds dragging functionality so that the marker can be moved
         markerView.setOnMouseDragged(e -> {
             mapViewScrollPane.setPannable(false);
-            if (e.getX() > 0 && e.getX() < mapImageView.getImage().getWidth()) markerView.setX(e.getX() - markerView.getFitWidth()/2);
-            markerView.setX(Math.clamp(markerView.getX(), 1, mapImageView.getImage().getWidth()-1));
-            if (e.getY() > 0 && e.getY() < mapImageView.getImage().getHeight()) markerView.setY(e.getY() - markerView.getFitWidth());
-            markerView.setY(Math.clamp(markerView.getY(), 1, mapImageView.getImage().getHeight()-1));
-            System.out.println("X: " + e.getX() + " Y: " + e.getY());
+            if (e.getX() > 0 && e.getX() < mapImageView.getImage().getWidth()) markerView.setX(e.getX() - markerView.getFitWidth()/3);
+//            markerView.setX(Math.clamp(markerView.getX(), 1, mapImageView.getImage().getWidth()-1));
+            if (e.getY() > 0 && e.getY() < mapImageView.getImage().getHeight()) markerView.setY(e.getY() - markerView.getFitHeight());
+//            markerView.setY(Math.clamp(markerView.getY(), 1, mapImageView.getImage().getHeight()-1));
         });
 
         markerView.setOnMouseClicked(e -> {
@@ -151,17 +161,43 @@ public class MapViewController implements ModelListener {
         return markerView;
     }
 
+    //Generate a new marker
     public void createMarker() {
         MarkerModel markerModel = new MarkerModel();
         markerModel.setX(mousePointX);
         markerModel.setY(mousePointY);
         markerModel.setMarkerImage(new Image(mapViewScrollPane.getClass().getResource("img/marker2.png").toExternalForm()));
-        Dialog<MarkerModel> markerDialog = new MarkerDialog(markerModel);
+        Dialog<MarkerModel> markerDialog = new MarkerDialog(markerModel); //Open a Dialog Box to create a new Marker
         Optional<MarkerModel> result = markerDialog.showAndWait();
         if (result.isPresent()) {
             MarkerModel newMarker = result.get();
             visibleModel.add(newMarker);
         }
+    }
+
+    //Set marker scale
+    public void setMarkerScale() {
+        Popup popup = new Popup();
+        TextField textField = new TextField();
+        textField.setPromptText("Enter decimal (0-1)");
+        Pane pane = new Pane(textField);
+
+        textField.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                if (textField.getText().isEmpty()) popup.hide();
+                try {
+                    getVisibleMap().setMarkerScale(Double.parseDouble(textField.getText()));
+                    popup.hide();
+                    updateImageView();
+                } catch (NumberFormatException ex) {
+                    popup.hide();
+                }
+            }
+        });
+
+        popup.getContent().add(pane);
+        popup.setAutoHide(true);
+        popup.show(getStage());
     }
 
     public MapModel getVisibleMap() {

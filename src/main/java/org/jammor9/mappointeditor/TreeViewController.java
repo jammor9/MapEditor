@@ -37,6 +37,7 @@ public class TreeViewController  implements ModelListener {
     private void updateTree() {
         headerItem = visibleModel.getProjectHeaderView().getTree();
         nodeView.setRoot(headerItem);
+        headerItem.setExpanded(true);
         nodeView.refresh();;
     }
 

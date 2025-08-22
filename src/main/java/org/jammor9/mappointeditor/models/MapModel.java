@@ -1,9 +1,6 @@
 package org.jammor9.mappointeditor.models;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -11,10 +8,12 @@ import java.util.ArrayList;
 public class MapModel extends ModelComposite {
     private StringProperty mapNameProperty;
     private ObjectProperty<Image> mapImageProperty;
+    private DoubleProperty markerScale;
 
     public MapModel(String mapName, Image image) {
         this.mapNameProperty = new SimpleStringProperty(mapName);
         this.mapImageProperty = new SimpleObjectProperty<>(image);
+        this.markerScale = new SimpleDoubleProperty(0.05);
     }
 
     public void createNewMap(String mapName, Image image) {
@@ -40,6 +39,18 @@ public class MapModel extends ModelComposite {
 
     public ObjectProperty<Image> getMapImageProperty() {
         return this.mapImageProperty;
+    }
+
+    public DoubleProperty getMarkerScaleProperty() {
+        return this.markerScale;
+    }
+
+    public Double getMarkerScale() {
+        return this.markerScale.get();
+    }
+
+    public void setMarkerScale(Double d) {
+        this.markerScale = new SimpleDoubleProperty(d);
     }
 
     @Override
