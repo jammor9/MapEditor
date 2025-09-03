@@ -16,6 +16,10 @@
             <MenuItem fx:id="saveProjectButton" text="Save" onAction="#handleSave"/>
             <MenuItem fx:id="quitButton" text="Quit" onAction="#closeApplication"/>
         </Menu>
+
+        <Menu text="Create">
+            <MenuItem fx:id="newCalendarButton" onAction="#createNewCalendar" text="Calendar"/>
+        </Menu>
     </MenuBar>
 
 </HBox>

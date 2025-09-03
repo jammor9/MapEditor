@@ -27,14 +27,16 @@ public class SaveAndLoad {
         t.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 if(!t.getText().isEmpty()) {
-                    String path = SAVE_DIRECTORY_NAME + t.getText() + ".json";
+                    String path = SAVE_DIRECTORY_NAME + t.getText() + "/" + t.getText() + ".json";
                     File file = new File(path);
                     if(!file.exists()) {
                         try {
-                            file.createNewFile();
-                            FileWriter w = new FileWriter(path);
-                            gson.toJson(root, w);
-                            w.close();
+                            if (file.getParentFile().mkdir());{
+                                file.createNewFile();
+                                FileWriter w = new FileWriter(path);
+                                gson.toJson(root, w);
+                                w.close();
+                            }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -43,7 +45,6 @@ public class SaveAndLoad {
                 }
             }
         });
-
         popup.show(Application.getStage());
     }
 

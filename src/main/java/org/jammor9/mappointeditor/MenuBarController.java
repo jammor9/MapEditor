@@ -2,6 +2,7 @@ package org.jammor9.mappointeditor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -10,6 +11,8 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.jammor9.mappointeditor.Utils.Utils;
 import org.jammor9.mappointeditor.models.*;
+
+import java.util.Optional;
 
 public class MenuBarController implements ModelListener {
 
@@ -72,5 +75,14 @@ public class MenuBarController implements ModelListener {
     @Override
     public void update(Command c) {
 
+    }
+
+    public void createNewCalendar(ActionEvent actionEvent) {
+        CalendarModel calendarModel = new CalendarModel(null);
+        Dialog<CalendarModel> markerDialog = new CalendarDialog(calendarModel); //Open a Dialog Box to create a new Marker
+        Optional<CalendarModel> result = markerDialog.showAndWait();
+        if (result.isPresent()) {
+            CalendarModel newCalendar = result.get();
+        }
     }
 }

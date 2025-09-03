@@ -17,6 +17,7 @@ public class MarkerDialog extends Dialog<MarkerModel> {
 
     public MarkerDialog(MarkerModel markerModel) {
         super();
+        setTitle("New Marker");
         this.marker = markerModel;
         this.nameField = new TextField();
         this.nameField.setPromptText("Marker Name");
