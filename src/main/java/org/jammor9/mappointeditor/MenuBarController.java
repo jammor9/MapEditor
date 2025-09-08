@@ -83,6 +83,7 @@ public class MenuBarController implements ModelListener {
         Optional<CalendarModel> result = markerDialog.showAndWait();
         if (result.isPresent()) {
             CalendarModel newCalendar = result.get();
+            if (newCalendar != null) visibleModel.addCalendar(newCalendar);
         }
     }
 }

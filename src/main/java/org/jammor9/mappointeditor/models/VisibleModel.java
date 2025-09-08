@@ -1,11 +1,14 @@
 package org.jammor9.mappointeditor.models;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
 
 public class VisibleModel {
     private ModelComposite currentView;
     private static VisibleModel singleton = null;
     private ArrayList<ModelListener> listeners;
+    private HashSet<CalendarModel> calendarSet;
     private ModelComposite projectHeaderView;
     private boolean activeProject;
 
@@ -61,5 +64,13 @@ public class VisibleModel {
 
     public boolean isActiveProject() {
         return this.activeProject;
+    }
+
+    public void addCalendar(CalendarModel calendar) {
+        this.calendarSet.add(calendar);
+    }
+
+    public void removeCalendar(CalendarModel calendarModel) {
+        this.calendarSet.remove(calendarModel);
     }
 }

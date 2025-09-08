@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
@@ -48,6 +49,7 @@ public class TreeViewController  implements ModelListener {
         MenuItem addMap = new MenuItem("New Map");
         MenuItem addArticle = new MenuItem("New Article");
         MenuItem addFolder = new MenuItem("New Folder");
+        MenuItem deleteItem = new MenuItem("Delete");
         addSubMenu.getItems().addAll(addMap, addArticle, addFolder);
 
         //Allows you to rename the ModelComposite via opening a popup, does not allow empty names
@@ -135,8 +137,10 @@ public class TreeViewController  implements ModelListener {
             popup.show(nodeView.getScene().getWindow());
         });
 
-        contextMenu.getItems().add(rename);
-        contextMenu.getItems().add(addSubMenu);
+        //Checks if the user really wants to the selected item
+        deleteItem.setOnAction(e->handleDeleteButton());
+
+        contextMenu.getItems().addAll(rename, addSubMenu, deleteItem);
 
         return contextMenu;
     }
@@ -151,4 +155,31 @@ public class TreeViewController  implements ModelListener {
             }
         });
     }
+
+    private void handleDeleteButton() {
+        Popup popup = new Popup();
+        popup.setAutoHide(true);
+        ModelComposite selected = nodeView.getSelectionModel().getSelectedItem().getValue();
+        if (selected == visibleModel.getProjectHeaderView()) return;
+
+        Label label = new Label("Are you sure you want to delete " + selected.toString() +" this action is irreversible AND will delete all children!");
+        Button confirmButton = new Button("Confirm");
+        Button cancelButton = new Button("Cancel");
+
+        confirmButton.setOnAction(e -> {
+            visibleModel.getProjectHeaderView().delete(selected, selected.getParentIdentifier());
+            updateTree();
+            popup.hide();
+        });
+
+        cancelButton.setOnAction(e -> popup.hide());
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(label, 0, 0);
+        gridPane.add(confirmButton, 0, 1);
+        gridPane.add(cancelButton, 1, 1);
+        popup.getContent().add(gridPane);
+        popup.show(nodeView.getScene().getWindow());
+    }
+
 }
